@@ -511,6 +511,18 @@ public class CloudantTest extends PowerMockTestCase {
     assertEquals(parsedPath, postDbsInfoPath);
   }
 
+  // Test the postDbsInfo operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testPostDbsInfoNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    cloudantService.postDbsInfo(null).execute();
+  }
+
   @Test
   public void testDeleteDatabaseWOptions() throws Throwable {
     // Schedule some responses.
@@ -3789,9 +3801,9 @@ public class CloudantTest extends PowerMockTestCase {
     // Construct an instance of the PostIndexOptions model
     PostIndexOptions postIndexOptionsModel = new PostIndexOptions.Builder()
     .db("testString")
+    .index(indexDefinitionModel)
     .ddoc("testString")
     .def(indexDefinitionModel)
-    .index(indexDefinitionModel)
     .name("testString")
     .partialFilterSelector(new java.util.HashMap<String, Object>() { { put("foo", "testString"); } })
     .partitioned(true)
@@ -3920,6 +3932,18 @@ public class CloudantTest extends PowerMockTestCase {
     // Check request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, postSearchAnalyzePath);
+  }
+
+  // Test the postSearchAnalyze operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testPostSearchAnalyzeNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    cloudantService.postSearchAnalyze(null).execute();
   }
 
   @Test

@@ -41,4 +41,10 @@ public class PostSearchAnalyzeOptionsTest {
     assertEquals(postSearchAnalyzeOptionsModel.analyzer(), "arabic");
     assertEquals(postSearchAnalyzeOptionsModel.text(), "testString");
   }
+
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testPostSearchAnalyzeOptionsError() throws Throwable {
+    new PostSearchAnalyzeOptions.Builder().build();
+  }
+
 }
