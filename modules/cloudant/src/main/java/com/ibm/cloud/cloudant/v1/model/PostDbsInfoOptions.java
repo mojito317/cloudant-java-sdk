@@ -41,15 +41,6 @@ public class PostDbsInfoOptions extends GenericModel {
     }
 
     /**
-     * Instantiates a new builder with required properties.
-     *
-     * @param keys the keys
-     */
-    public Builder(List<String> keys) {
-      this.keys = keys;
-    }
-
-    /**
      * Builds a PostDbsInfoOptions.
      *
      * @return the new PostDbsInfoOptions instance
@@ -88,8 +79,6 @@ public class PostDbsInfoOptions extends GenericModel {
   }
 
   protected PostDbsInfoOptions(Builder builder) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(builder.keys,
-      "keys cannot be null");
     keys = builder.keys;
   }
 

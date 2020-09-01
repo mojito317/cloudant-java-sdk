@@ -127,17 +127,6 @@ public class PostSearchAnalyzeOptions extends GenericModel {
     }
 
     /**
-     * Instantiates a new builder with required properties.
-     *
-     * @param analyzer the analyzer
-     * @param text the text
-     */
-    public Builder(String analyzer, String text) {
-      this.analyzer = analyzer;
-      this.text = text;
-    }
-
-    /**
      * Builds a PostSearchAnalyzeOptions.
      *
      * @return the new PostSearchAnalyzeOptions instance
@@ -170,10 +159,6 @@ public class PostSearchAnalyzeOptions extends GenericModel {
   }
 
   protected PostSearchAnalyzeOptions(Builder builder) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(builder.analyzer,
-      "analyzer cannot be null");
-    com.ibm.cloud.sdk.core.util.Validator.notNull(builder.text,
-      "text cannot be null");
     analyzer = builder.analyzer;
     text = builder.text;
   }

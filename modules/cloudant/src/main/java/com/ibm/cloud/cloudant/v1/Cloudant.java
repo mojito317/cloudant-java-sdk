@@ -144,13 +144,13 @@ import com.ibm.cloud.cloudant.v1.model.UpInformation;
 import com.ibm.cloud.cloudant.v1.model.UuidsResult;
 import com.ibm.cloud.cloudant.v1.model.ViewQueriesResult;
 import com.ibm.cloud.cloudant.v1.model.ViewResult;
-import com.ibm.cloud.cloudant.common.SdkCommon;
+import com.ibm.cloud.common.SdkCommon;
 import com.ibm.cloud.sdk.core.http.RequestBuilder;
 import com.ibm.cloud.sdk.core.http.ResponseConverter;
 import com.ibm.cloud.sdk.core.http.ServiceCall;
 import com.ibm.cloud.sdk.core.security.Authenticator;
-
-
+import com.ibm.cloud.sdk.core.security.ConfigBasedAuthenticatorFactory;
+import com.ibm.cloud.sdk.core.service.BaseService;
 import com.ibm.cloud.sdk.core.util.RequestUtils;
 import com.ibm.cloud.sdk.core.util.ResponseConverterUtils;
 import java.io.InputStream;
@@ -164,7 +164,7 @@ import java.util.Map.Entry;
  * @version v1
  * @see <a href="https://cloud.ibm.com/docs/services/Cloudant/">Cloudant</a>
  */
-public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseService {
+public class Cloudant extends BaseService {
 
   public static final String DEFAULT_SERVICE_NAME = "cloudant";
 
@@ -188,7 +188,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
    * @return an instance of the `Cloudant` client using external configuration
    */
   public static Cloudant newInstance(String serviceName) {
-    Authenticator authenticator = com.ibm.cloud.cloudant.internal.DelegatingAuthenticatorFactory.getAuthenticator(serviceName);
+    Authenticator authenticator = ConfigBasedAuthenticatorFactory.getAuthenticator(serviceName);
     Cloudant service = new Cloudant(serviceName, authenticator);
     service.configureService(serviceName);
     return service;
@@ -398,8 +398,11 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
    * @return a {@link ServiceCall} with a result of type {@link List}
    */
   public ServiceCall<List<DbsInfoResult>> postDbsInfo(PostDbsInfoOptions postDbsInfoOptions) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(postDbsInfoOptions,
-      "postDbsInfoOptions cannot be null");
+    boolean skipBody = false;
+    if (postDbsInfoOptions == null) {
+      postDbsInfoOptions = new PostDbsInfoOptions.Builder().build();
+      skipBody = true;
+    }
     String[] pathSegments = { "_dbs_info" };
     RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postDbsInfo");
@@ -407,12 +410,29 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    final JsonObject contentJson = new JsonObject();
-    contentJson.add("keys", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postDbsInfoOptions.keys()));
-    builder.bodyJson(contentJson);
+    if (!skipBody) {
+      final JsonObject contentJson = new JsonObject();
+      if (postDbsInfoOptions.keys() != null) {
+        contentJson.add("keys", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postDbsInfoOptions.keys()));
+      }
+      builder.bodyJson(contentJson);
+    }
     ResponseConverter<List<DbsInfoResult>> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<List<DbsInfoResult>>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Query information about multiple databases.
+   *
+   * This operation enables you to request information about multiple databases in a single request, instead of issuing
+   * multiple `GET /{db}` requests. It returns a list that contains an information object for each database specified in
+   * the request.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link List}
+   */
+  public ServiceCall<List<DbsInfoResult>> postDbsInfo() {
+    return postDbsInfo(null);
   }
 
   /**
@@ -716,8 +736,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
     if (postDocumentOptions.batch() != null) {
       builder.query("batch", postDocumentOptions.batch());
     }
-    String contentType = postDocumentOptions.contentType() == null ? "application/json" : postDocumentOptions.contentType();
-    builder.bodyContent(contentType, postDocumentOptions.document(),
+    builder.bodyContent(postDocumentOptions.contentType(), postDocumentOptions.document(),
       null, postDocumentOptions.body());
     ResponseConverter<DocumentResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<DocumentResult>() { }.getType());
@@ -980,7 +999,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("revs", String.valueOf(postBulkGetOptions.revs()));
     }
     final JsonObject contentJson = new JsonObject();
-    contentJson.add("docs", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postBulkGetOptions.docs()));
+    if (postBulkGetOptions.docs() != null) {
+      contentJson.add("docs", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postBulkGetOptions.docs()));
+    }
     builder.bodyJson(contentJson);
     ResponseConverter<BulkGetResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<BulkGetResult>() { }.getType());
@@ -1019,7 +1040,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("revs", String.valueOf(postBulkGetOptions.revs()));
     }
     final JsonObject contentJson = new JsonObject();
-    contentJson.add("docs", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postBulkGetOptions.docs()));
+    if (postBulkGetOptions.docs() != null) {
+      contentJson.add("docs", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postBulkGetOptions.docs()));
+    }
     builder.bodyJson(contentJson);
     ResponseConverter<InputStream> responseConverter = ResponseConverterUtils.getInputStream();
     return createServiceCall(builder.build(), responseConverter);
@@ -1057,7 +1080,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("revs", String.valueOf(postBulkGetOptions.revs()));
     }
     final JsonObject contentJson = new JsonObject();
-    contentJson.add("docs", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postBulkGetOptions.docs()));
+    if (postBulkGetOptions.docs() != null) {
+      contentJson.add("docs", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postBulkGetOptions.docs()));
+    }
     builder.bodyJson(contentJson);
     ResponseConverter<InputStream> responseConverter = ResponseConverterUtils.getInputStream();
     return createServiceCall(builder.build(), responseConverter);
@@ -1095,7 +1120,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("revs", String.valueOf(postBulkGetOptions.revs()));
     }
     final JsonObject contentJson = new JsonObject();
-    contentJson.add("docs", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postBulkGetOptions.docs()));
+    if (postBulkGetOptions.docs() != null) {
+      contentJson.add("docs", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postBulkGetOptions.docs()));
+    }
     builder.bodyJson(contentJson);
     ResponseConverter<InputStream> responseConverter = ResponseConverterUtils.getInputStream();
     return createServiceCall(builder.build(), responseConverter);
@@ -1424,8 +1451,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
     if (putDocumentOptions.rev() != null) {
       builder.query("rev", putDocumentOptions.rev());
     }
-    String contentType = putDocumentOptions.contentType() == null ? "application/json" : putDocumentOptions.contentType();
-    builder.bodyContent(contentType, putDocumentOptions.document(),
+    builder.bodyContent(putDocumentOptions.contentType(), putDocumentOptions.document(),
       null, putDocumentOptions.body());
     ResponseConverter<DocumentResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<DocumentResult>() { }.getType());
@@ -2776,12 +2802,14 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
     }
     builder.header("Accept", "application/json");
     final JsonObject contentJson = new JsonObject();
-    contentJson.add("index", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postIndexOptions.index()));
     if (postIndexOptions.ddoc() != null) {
       contentJson.addProperty("ddoc", postIndexOptions.ddoc());
     }
     if (postIndexOptions.def() != null) {
       contentJson.add("def", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postIndexOptions.def()));
+    }
+    if (postIndexOptions.index() != null) {
+      contentJson.add("index", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postIndexOptions.index()));
     }
     if (postIndexOptions.name() != null) {
       contentJson.addProperty("name", postIndexOptions.name());
@@ -2833,8 +2861,11 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
    * @return a {@link ServiceCall} with a result of type {@link SearchAnalyzeResult}
    */
   public ServiceCall<SearchAnalyzeResult> postSearchAnalyze(PostSearchAnalyzeOptions postSearchAnalyzeOptions) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(postSearchAnalyzeOptions,
-      "postSearchAnalyzeOptions cannot be null");
+    boolean skipBody = false;
+    if (postSearchAnalyzeOptions == null) {
+      postSearchAnalyzeOptions = new PostSearchAnalyzeOptions.Builder().build();
+      skipBody = true;
+    }
     String[] pathSegments = { "_search_analyze" };
     RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postSearchAnalyze");
@@ -2842,13 +2873,31 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    final JsonObject contentJson = new JsonObject();
-    contentJson.addProperty("analyzer", postSearchAnalyzeOptions.analyzer());
-    contentJson.addProperty("text", postSearchAnalyzeOptions.text());
-    builder.bodyJson(contentJson);
+    if (!skipBody) {
+      final JsonObject contentJson = new JsonObject();
+      if (postSearchAnalyzeOptions.analyzer() != null) {
+        contentJson.addProperty("analyzer", postSearchAnalyzeOptions.analyzer());
+      }
+      if (postSearchAnalyzeOptions.text() != null) {
+        contentJson.addProperty("text", postSearchAnalyzeOptions.text());
+      }
+      builder.bodyJson(contentJson);
+    }
     ResponseConverter<SearchAnalyzeResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<SearchAnalyzeResult>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Query tokenization of sample text.
+   *
+   * Returns the results of analyzer tokenization of the provided sample text. This endpoint can be used for testing
+   * analyzer tokenization.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link SearchAnalyzeResult}
+   */
+  public ServiceCall<SearchAnalyzeResult> postSearchAnalyze() {
+    return postSearchAnalyze(null);
   }
 
   /**
@@ -4410,9 +4459,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    if (postMissingRevsOptions.documentRevisions() != null) {
-      builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(postMissingRevsOptions.documentRevisions()), "application/json");
-    }
+    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(postMissingRevsOptions.documentRevisions()), "application/json");
     ResponseConverter<MissingRevsResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<MissingRevsResult>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
@@ -4439,9 +4486,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    if (postRevsDiffOptions.documentRevisions() != null) {
-      builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(postRevsDiffOptions.documentRevisions()), "application/json");
-    }
+    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(postRevsDiffOptions.documentRevisions()), "application/json");
     ResponseConverter<Map<String, RevsDiff>> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<Map<String, RevsDiff>>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);

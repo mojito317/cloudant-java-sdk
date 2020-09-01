@@ -59,11 +59,9 @@ public class PostBulkGetOptions extends GenericModel {
      * Instantiates a new builder with required properties.
      *
      * @param db the db
-     * @param docs the docs
      */
-    public Builder(String db, List<BulkGetQueryDocument> docs) {
+    public Builder(String db) {
       this.db = db;
-      this.docs = docs;
     }
 
     /**
@@ -162,8 +160,6 @@ public class PostBulkGetOptions extends GenericModel {
   protected PostBulkGetOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.db,
       "db cannot be empty");
-    com.ibm.cloud.sdk.core.util.Validator.notNull(builder.docs,
-      "docs cannot be null");
     db = builder.db;
     docs = builder.docs;
     attachments = builder.attachments;
