@@ -69,17 +69,6 @@ public class UserContext extends GenericModel {
     }
 
     /**
-     * Instantiates a new builder with required properties.
-     *
-     * @param name the name
-     * @param roles the roles
-     */
-    public Builder(String name, List<String> roles) {
-      this.name = name;
-      this.roles = roles;
-    }
-
-    /**
      * Builds a UserContext.
      *
      * @return the new UserContext instance
@@ -140,10 +129,6 @@ public class UserContext extends GenericModel {
   }
 
   protected UserContext(Builder builder) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(builder.name,
-      "name cannot be null");
-    com.ibm.cloud.sdk.core.util.Validator.notNull(builder.roles,
-      "roles cannot be null");
     db = builder.db;
     name = builder.name;
     roles = builder.roles;

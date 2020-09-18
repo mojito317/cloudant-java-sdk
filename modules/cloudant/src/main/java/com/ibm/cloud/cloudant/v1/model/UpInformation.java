@@ -12,8 +12,6 @@
  */
 package com.ibm.cloud.cloudant.v1.model;
 
-import java.util.Map;
-
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
@@ -33,19 +31,7 @@ public class UpInformation extends GenericModel {
     String OK = "ok";
   }
 
-  protected Map<String, Object> seeds;
   protected String status;
-
-  /**
-   * Gets the seeds.
-   *
-   * seeds.
-   *
-   * @return the seeds
-   */
-  public Map<String, Object> getSeeds() {
-    return seeds;
-  }
 
   /**
    * Gets the status.

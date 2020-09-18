@@ -262,7 +262,7 @@ public class CloudantTest extends PowerMockTestCase {
   @Test
   public void testGetServerInformationWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"couchdb\": \"couchdb\", \"features\": [\"features\"], \"vendor\": {\"name\": \"name\", \"variant\": \"variant\", \"version\": \"version\"}, \"version\": \"version\", \"features_flags\": [\"featuresFlags\"]}";
+    String mockResponseBody = "{\"couchdb\": \"couchdb\", \"features\": [\"features\"], \"vendor\": {\"name\": \"name\", \"variant\": \"variant\", \"version\": \"version\"}, \"version\": \"version\"}";
     String getServerInformationPath = java.net.URLEncoder.encode("/", "UTF-8").replace("%2F", "/");
 
     server.enqueue(new MockResponse()
@@ -4411,7 +4411,7 @@ public class CloudantTest extends PowerMockTestCase {
   @Test
   public void testGetDbUpdatesWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"last_seq\": \"lastSeq\", \"results\": [{\"account\": \"account\", \"db_name\": \"dbName\", \"seq\": \"seq\", \"type\": \"created\"}]}";
+    String mockResponseBody = "{\"last_seq\": \"lastSeq\", \"results\": [{\"account\": \"account\", \"dbname\": \"dbname\", \"seq\": \"seq\", \"type\": \"created\"}]}";
     String getDbUpdatesPath = java.net.URLEncoder.encode("/_db_updates", "UTF-8").replace("%2F", "/");
 
     server.enqueue(new MockResponse()
@@ -4557,7 +4557,7 @@ public class CloudantTest extends PowerMockTestCase {
   @Test
   public void testPostReplicateWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"history\": [{\"doc_write_failures\": 0, \"docs_read\": 0, \"docs_written\": 0, \"end_last_seq\": \"endLastSeq\", \"end_time\": \"endTime\", \"missing_checked\": 0, \"missing_found\": 0, \"recorded_seq\": \"recordedSeq\", \"session_id\": \"sessionId\", \"start_last_seq\": 12, \"start_time\": \"startTime\"}], \"ok\": true, \"replication_id_version\": 0, \"session_id\": \"sessionId\", \"source_last_seq\": \"sourceLastSeq\"}";
+    String mockResponseBody = "{\"history\": [{\"doc_write_failures\": 0, \"docs_read\": 0, \"docs_written\": 0, \"end_last_seq\": \"endLastSeq\", \"end_time\": \"endTime\", \"missing_checked\": 0, \"missing_found\": 0, \"recorded_seq\": \"recordedSeq\", \"session_id\": \"sessionId\", \"start_last_seq\": \"startLastSeq\", \"start_time\": \"startTime\"}], \"ok\": true, \"replication_id_version\": 0, \"session_id\": \"sessionId\", \"source_last_seq\": \"sourceLastSeq\"}";
     String postReplicatePath = java.net.URLEncoder.encode("/_replicate", "UTF-8").replace("%2F", "/");
 
     server.enqueue(new MockResponse()
@@ -6266,7 +6266,7 @@ public class CloudantTest extends PowerMockTestCase {
   @Test
   public void testGetActiveTasksWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "[{\"changes_done\": 0, \"database\": \"database\", \"node\": \"node\", \"pid\": \"pid\", \"progress\": 0, \"started_on\": 0, \"status\": \"status\", \"task\": \"task\", \"total_changes\": 0, \"type\": \"type\", \"updated_on\": 0}]";
+    String mockResponseBody = "[{\"changes_done\": 0, \"database\": \"database\", \"pid\": \"pid\", \"progress\": 0, \"started_on\": 0, \"status\": \"status\", \"task\": \"task\", \"total_changes\": 0, \"type\": \"type\", \"updated_on\": 0}]";
     String getActiveTasksPath = java.net.URLEncoder.encode("/_active_tasks", "UTF-8").replace("%2F", "/");
 
     server.enqueue(new MockResponse()
@@ -6302,7 +6302,7 @@ public class CloudantTest extends PowerMockTestCase {
   @Test
   public void testGetUpInformationWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"seeds\": {\"mapKey\": \"anyValue\"}, \"status\": \"maintenance_mode\"}";
+    String mockResponseBody = "{\"status\": \"maintenance_mode\"}";
     String getUpInformationPath = java.net.URLEncoder.encode("/_up", "UTF-8").replace("%2F", "/");
 
     server.enqueue(new MockResponse()

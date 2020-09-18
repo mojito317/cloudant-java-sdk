@@ -81,10 +81,4 @@ public class IndexDefinitionTest {
     assertEquals(indexDefinitionModelNew.defaultField().toString(), indexTextOperatorDefaultFieldModel.toString());
     assertEquals(indexDefinitionModelNew.indexArrayLengths(), Boolean.valueOf(true));
   }
-
-  @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testIndexDefinitionError() throws Throwable {
-    new IndexDefinition.Builder().build();
-  }
-
 }

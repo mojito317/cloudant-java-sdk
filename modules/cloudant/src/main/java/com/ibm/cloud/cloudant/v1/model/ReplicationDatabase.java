@@ -46,15 +46,6 @@ public class ReplicationDatabase extends GenericModel {
     }
 
     /**
-     * Instantiates a new builder with required properties.
-     *
-     * @param url the url
-     */
-    public Builder(String url) {
-      this.url = url;
-    }
-
-    /**
      * Builds a ReplicationDatabase.
      *
      * @return the new ReplicationDatabase instance
@@ -98,8 +89,6 @@ public class ReplicationDatabase extends GenericModel {
   }
 
   protected ReplicationDatabase(Builder builder) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(builder.url,
-      "url cannot be null");
     auth = builder.auth;
     headers = builder.headers;
     url = builder.url;

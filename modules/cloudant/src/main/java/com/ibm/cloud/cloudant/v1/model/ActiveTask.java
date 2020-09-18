@@ -23,7 +23,6 @@ public class ActiveTask extends GenericModel {
   @SerializedName("changes_done")
   protected Long changesDone;
   protected String database;
-  protected String node;
   protected String pid;
   protected Long progress;
   @SerializedName("started_on")
@@ -56,17 +55,6 @@ public class ActiveTask extends GenericModel {
    */
   public String getDatabase() {
     return database;
-  }
-
-  /**
-   * Gets the node.
-   *
-   * Cluster node where the task is running.
-   *
-   * @return the node
-   */
-  public String getNode() {
-    return node;
   }
 
   /**
