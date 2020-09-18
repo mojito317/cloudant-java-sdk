@@ -262,7 +262,7 @@ public class CloudantTest extends PowerMockTestCase {
   @Test
   public void testGetServerInformationWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"couchdb\": \"couchdb\", \"features\": [\"features\"], \"vendor\": {\"name\": \"name\", \"variant\": \"variant\", \"version\": \"version\"}, \"version\": \"version\"}";
+    String mockResponseBody = "{\"couchdb\": \"couchdb\", \"features\": [\"features\"], \"git_sha\": \"gitSha\", \"uuid\": \"uuid\", \"vendor\": {\"name\": \"name\", \"variant\": \"variant\", \"version\": \"version\"}, \"version\": \"version\"}";
     String getServerInformationPath = java.net.URLEncoder.encode("/", "UTF-8").replace("%2F", "/");
 
     server.enqueue(new MockResponse()
