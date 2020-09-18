@@ -37,6 +37,7 @@ public class ActiveTaskTest {
     ActiveTask activeTaskModel = new ActiveTask();
     assertNull(activeTaskModel.getChangesDone());
     assertNull(activeTaskModel.getDatabase());
+    assertNull(activeTaskModel.getNode());
     assertNull(activeTaskModel.getPid());
     assertNull(activeTaskModel.getProgress());
     assertNull(activeTaskModel.getStartedOn());

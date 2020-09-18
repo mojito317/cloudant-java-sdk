@@ -189,4 +189,10 @@ public class PostReplicateOptionsTest {
       .build();
     assertEquals(postReplicateOptionsModel.replicationDocument(), replicationDocumentModel);
   }
+
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testPostReplicateOptionsError() throws Throwable {
+    new PostReplicateOptions.Builder().build();
+  }
+
 }

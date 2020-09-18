@@ -41,6 +41,7 @@ public class PostSearchOptionsTest {
       .db("testString")
       .ddoc("testString")
       .index("testString")
+      .query("testString")
       .bookmark("testString")
       .highlightFields(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
       .highlightNumber(Long.valueOf("1"))
@@ -50,7 +51,6 @@ public class PostSearchOptionsTest {
       .includeDocs(true)
       .includeFields(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
       .limit(Long.valueOf("0"))
-      .query("testString")
       .sort(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
       .stale("ok")
       .counts(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
@@ -63,6 +63,7 @@ public class PostSearchOptionsTest {
     assertEquals(postSearchOptionsModel.db(), "testString");
     assertEquals(postSearchOptionsModel.ddoc(), "testString");
     assertEquals(postSearchOptionsModel.index(), "testString");
+    assertEquals(postSearchOptionsModel.query(), "testString");
     assertEquals(postSearchOptionsModel.bookmark(), "testString");
     assertEquals(postSearchOptionsModel.highlightFields(), new java.util.ArrayList<String>(java.util.Arrays.asList("testString")));
     assertEquals(postSearchOptionsModel.highlightNumber(), Long.valueOf("1"));
@@ -72,7 +73,6 @@ public class PostSearchOptionsTest {
     assertEquals(postSearchOptionsModel.includeDocs(), Boolean.valueOf(true));
     assertEquals(postSearchOptionsModel.includeFields(), new java.util.ArrayList<String>(java.util.Arrays.asList("testString")));
     assertEquals(postSearchOptionsModel.limit(), Long.valueOf("0"));
-    assertEquals(postSearchOptionsModel.query(), "testString");
     assertEquals(postSearchOptionsModel.sort(), new java.util.ArrayList<String>(java.util.Arrays.asList("testString")));
     assertEquals(postSearchOptionsModel.stale(), "ok");
     assertEquals(postSearchOptionsModel.counts(), new java.util.ArrayList<String>(java.util.Arrays.asList("testString")));
