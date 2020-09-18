@@ -38,6 +38,7 @@ public class ServerInformationTest {
     ServerInformation serverInformationModel = new ServerInformation();
     assertNull(serverInformationModel.getCouchdb());
     assertNull(serverInformationModel.getFeatures());
+    assertNull(serverInformationModel.getUuid());
     assertNull(serverInformationModel.getVendor());
     assertNull(serverInformationModel.getVersion());
   }

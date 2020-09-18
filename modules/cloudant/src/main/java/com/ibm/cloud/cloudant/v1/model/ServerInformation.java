@@ -23,6 +23,7 @@ public class ServerInformation extends GenericModel {
 
   protected String couchdb;
   protected List<String> features;
+  protected String uuid;
   protected ServerVendor vendor;
   protected String version;
 
@@ -46,6 +47,17 @@ public class ServerInformation extends GenericModel {
    */
   public List<String> getFeatures() {
     return features;
+  }
+
+  /**
+   * Gets the uuid.
+   *
+   * UUID of the CouchDB server.
+   *
+   * @return the uuid
+   */
+  public String getUuid() {
+    return uuid;
   }
 
   /**
