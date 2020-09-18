@@ -4411,7 +4411,7 @@ public class CloudantTest extends PowerMockTestCase {
   @Test
   public void testGetDbUpdatesWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"last_seq\": \"lastSeq\", \"results\": [{\"account\": \"account\", \"dbname\": \"dbname\", \"seq\": \"seq\", \"type\": \"created\"}]}";
+    String mockResponseBody = "{\"last_seq\": \"lastSeq\", \"results\": [{\"account\": \"account\", \"db_name\": \"dbName\", \"seq\": \"seq\", \"type\": \"created\"}]}";
     String getDbUpdatesPath = java.net.URLEncoder.encode("/_db_updates", "UTF-8").replace("%2F", "/");
 
     server.enqueue(new MockResponse()
