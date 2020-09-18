@@ -39,7 +39,7 @@ public class ReplicationHistory extends GenericModel {
   @SerializedName("session_id")
   protected String sessionId;
   @SerializedName("start_last_seq")
-  protected String startLastSeq;
+  protected Long startLastSeq;
   @SerializedName("start_time")
   protected String startTime;
 
@@ -149,7 +149,7 @@ public class ReplicationHistory extends GenericModel {
    *
    * @return the startLastSeq
    */
-  public String getStartLastSeq() {
+  public Long getStartLastSeq() {
     return startLastSeq;
   }
 

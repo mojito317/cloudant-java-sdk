@@ -4557,7 +4557,7 @@ public class CloudantTest extends PowerMockTestCase {
   @Test
   public void testPostReplicateWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"history\": [{\"doc_write_failures\": 0, \"docs_read\": 0, \"docs_written\": 0, \"end_last_seq\": \"endLastSeq\", \"end_time\": \"endTime\", \"missing_checked\": 0, \"missing_found\": 0, \"recorded_seq\": \"recordedSeq\", \"session_id\": \"sessionId\", \"start_last_seq\": \"startLastSeq\", \"start_time\": \"startTime\"}], \"ok\": true, \"replication_id_version\": 0, \"session_id\": \"sessionId\", \"source_last_seq\": \"sourceLastSeq\"}";
+    String mockResponseBody = "{\"history\": [{\"doc_write_failures\": 0, \"docs_read\": 0, \"docs_written\": 0, \"end_last_seq\": \"endLastSeq\", \"end_time\": \"endTime\", \"missing_checked\": 0, \"missing_found\": 0, \"recorded_seq\": \"recordedSeq\", \"session_id\": \"sessionId\", \"start_last_seq\": 0, \"start_time\": \"startTime\"}], \"ok\": true, \"replication_id_version\": 0, \"session_id\": \"sessionId\", \"source_last_seq\": \"sourceLastSeq\"}";
     String postReplicatePath = java.net.URLEncoder.encode("/_replicate", "UTF-8").replace("%2F", "/");
 
     server.enqueue(new MockResponse()
