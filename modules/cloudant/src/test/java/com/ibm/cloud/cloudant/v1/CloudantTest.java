@@ -6266,7 +6266,7 @@ public class CloudantTest extends PowerMockTestCase {
   @Test
   public void testGetActiveTasksWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "[{\"changes_done\": 0, \"database\": \"database\", \"pid\": \"pid\", \"progress\": 0, \"started_on\": 0, \"status\": \"status\", \"task\": \"task\", \"total_changes\": 0, \"type\": \"type\", \"updated_on\": 0}]";
+    String mockResponseBody = "[{\"changes_done\": 0, \"database\": \"database\", \"node\": \"node\", \"pid\": \"pid\", \"progress\": 0, \"started_on\": 0, \"status\": \"status\", \"task\": \"task\", \"total_changes\": 0, \"type\": \"type\", \"updated_on\": 0}]";
     String getActiveTasksPath = java.net.URLEncoder.encode("/_active_tasks", "UTF-8").replace("%2F", "/");
 
     server.enqueue(new MockResponse()
