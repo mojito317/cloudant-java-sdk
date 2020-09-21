@@ -6302,7 +6302,7 @@ public class CloudantTest extends PowerMockTestCase {
   @Test
   public void testGetUpInformationWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"status\": \"maintenance_mode\"}";
+    String mockResponseBody = "{\"seeds\": {\"mapKey\": \"anyValue\"}, \"status\": \"maintenance_mode\"}";
     String getUpInformationPath = java.net.URLEncoder.encode("/_up", "UTF-8").replace("%2F", "/");
 
     server.enqueue(new MockResponse()
