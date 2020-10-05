@@ -30,7 +30,7 @@ import com.ibm.cloud.cloudant.v1.model.Change;
 import com.ibm.cloud.cloudant.v1.model.ChangesResult;
 import com.ibm.cloud.cloudant.v1.model.ChangesResultItem;
 import com.ibm.cloud.cloudant.v1.model.ContentInformationSizes;
-import com.ibm.cloud.cloudant.v1.model.CorsConfiguration;
+import com.ibm.cloud.cloudant.v1.model.CorsInformation;
 import com.ibm.cloud.cloudant.v1.model.DatabaseInformation;
 import com.ibm.cloud.cloudant.v1.model.DatabaseInformationCluster;
 import com.ibm.cloud.cloudant.v1.model.DatabaseInformationProps;
@@ -256,7 +256,7 @@ public class CloudantTest extends PowerMockTestCase {
   @Test
   public void testGetServerInformationWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"couchdb\": \"couchdb\", \"features\": [\"features\"], \"git_sha\": \"gitSha\", \"uuid\": \"uuid\", \"vendor\": {\"name\": \"name\", \"variant\": \"variant\", \"version\": \"version\"}, \"version\": \"version\"}";
+    String mockResponseBody = "{\"couchdb\": \"couchdb\", \"features\": [\"features\"], \"vendor\": {\"name\": \"name\", \"variant\": \"variant\", \"version\": \"version\"}, \"version\": \"version\", \"features_flags\": [\"featuresFlags\"]}";
     String getServerInformationPath = "/";
 
     server.enqueue(new MockResponse()
@@ -4353,7 +4353,7 @@ public class CloudantTest extends PowerMockTestCase {
   @Test
   public void testGetGeoIndexInformationWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"geo_index\": {\"data_size\": 0, \"disk_size\": 0, \"doc_count\": 0}}";
+    String mockResponseBody = "{\"geo_index\": {\"data_size\": 0, \"disk_size\": 0, \"doc_count\": 0}, \"name\": \"name\"}";
     String getGeoIndexInformationPath = "/testString/_design/testString/_geo_info/testString";
 
     server.enqueue(new MockResponse()
@@ -5413,9 +5413,9 @@ public class CloudantTest extends PowerMockTestCase {
     GetCorsInformationOptions getCorsInformationOptionsModel = new GetCorsInformationOptions();
 
     // Invoke operation with valid options model (positive test)
-    Response<CorsConfiguration> response = cloudantService.getCorsInformation(getCorsInformationOptionsModel).execute();
+    Response<CorsInformation> response = cloudantService.getCorsInformation(getCorsInformationOptionsModel).execute();
     assertNotNull(response);
-    CorsConfiguration responseObj = response.getResult();
+    CorsInformation responseObj = response.getResult();
     assertNotNull(responseObj);
 
     // Verify the contents of the request

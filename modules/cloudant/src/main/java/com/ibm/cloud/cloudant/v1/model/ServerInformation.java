@@ -24,11 +24,10 @@ public class ServerInformation extends GenericModel {
 
   protected String couchdb;
   protected List<String> features;
-  @SerializedName("git_sha")
-  protected String gitSha;
-  protected String uuid;
   protected ServerVendor vendor;
   protected String version;
+  @SerializedName("features_flags")
+  protected List<String> featuresFlags;
 
   /**
    * Gets the couchdb.
@@ -53,28 +52,6 @@ public class ServerInformation extends GenericModel {
   }
 
   /**
-   * Gets the gitSha.
-   *
-   * Git SHA for the CouchDB server.
-   *
-   * @return the gitSha
-   */
-  public String getGitSha() {
-    return gitSha;
-  }
-
-  /**
-   * Gets the uuid.
-   *
-   * UUID of the CouchDB server.
-   *
-   * @return the uuid
-   */
-  public String getUuid() {
-    return uuid;
-  }
-
-  /**
    * Gets the vendor.
    *
    * Schema for server vendor information.
@@ -94,6 +71,17 @@ public class ServerInformation extends GenericModel {
    */
   public String getVersion() {
     return version;
+  }
+
+  /**
+   * Gets the featuresFlags.
+   *
+   * List of feature flags.
+   *
+   * @return the featuresFlags
+   */
+  public List<String> getFeaturesFlags() {
+    return featuresFlags;
   }
 }
 

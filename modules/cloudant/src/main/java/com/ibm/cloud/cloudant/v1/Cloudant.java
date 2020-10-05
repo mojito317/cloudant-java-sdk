@@ -24,7 +24,7 @@ import com.ibm.cloud.cloudant.v1.model.AllDocsResult;
 import com.ibm.cloud.cloudant.v1.model.ApiKeysResult;
 import com.ibm.cloud.cloudant.v1.model.BulkGetResult;
 import com.ibm.cloud.cloudant.v1.model.ChangesResult;
-import com.ibm.cloud.cloudant.v1.model.CorsConfiguration;
+import com.ibm.cloud.cloudant.v1.model.CorsInformation;
 import com.ibm.cloud.cloudant.v1.model.DatabaseInformation;
 import com.ibm.cloud.cloudant.v1.model.DbUpdates;
 import com.ibm.cloud.cloudant.v1.model.DbsInfoResult;
@@ -3818,17 +3818,17 @@ public class Cloudant extends BaseService {
    * server interact to determine whether or not to allow the request.
    *
    * @param getCorsInformationOptions the {@link GetCorsInformationOptions} containing the options for the call
-   * @return a {@link ServiceCall} with a result of type {@link CorsConfiguration}
+   * @return a {@link ServiceCall} with a result of type {@link CorsInformation}
    */
-  public ServiceCall<CorsConfiguration> getCorsInformation(GetCorsInformationOptions getCorsInformationOptions) {
+  public ServiceCall<CorsInformation> getCorsInformation(GetCorsInformationOptions getCorsInformationOptions) {
     RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_api/v2/user/config/cors"));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getCorsInformation");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    ResponseConverter<CorsConfiguration> responseConverter =
-      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<CorsConfiguration>() { }.getType());
+    ResponseConverter<CorsInformation> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<CorsInformation>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
   }
 
@@ -3838,9 +3838,9 @@ public class Cloudant extends BaseService {
    * Lists all Cross-origin resource sharing (CORS) configuration. CORS defines a way in which the browser and the
    * server interact to determine whether or not to allow the request.
    *
-   * @return a {@link ServiceCall} with a result of type {@link CorsConfiguration}
+   * @return a {@link ServiceCall} with a result of type {@link CorsInformation}
    */
-  public ServiceCall<CorsConfiguration> getCorsInformation() {
+  public ServiceCall<CorsInformation> getCorsInformation() {
     return getCorsInformation(null);
   }
 
