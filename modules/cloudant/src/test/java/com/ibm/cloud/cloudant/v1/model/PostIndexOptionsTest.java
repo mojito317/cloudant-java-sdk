@@ -19,15 +19,12 @@ import com.ibm.cloud.cloudant.v1.model.IndexField;
 import com.ibm.cloud.cloudant.v1.model.IndexTextOperatorDefaultField;
 import com.ibm.cloud.cloudant.v1.model.PostIndexOptions;
 import com.ibm.cloud.cloudant.v1.utils.TestUtilities;
-
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -76,18 +73,18 @@ public class PostIndexOptionsTest {
 
     PostIndexOptions postIndexOptionsModel = new PostIndexOptions.Builder()
       .db("testString")
+      .index(indexDefinitionModel)
       .ddoc("testString")
       .def(indexDefinitionModel)
-      .index(indexDefinitionModel)
       .name("testString")
       .partialFilterSelector(new java.util.HashMap<String, Object>() { { put("foo", "testString"); } })
       .partitioned(true)
       .type("json")
       .build();
     assertEquals(postIndexOptionsModel.db(), "testString");
+    assertEquals(postIndexOptionsModel.index(), indexDefinitionModel);
     assertEquals(postIndexOptionsModel.ddoc(), "testString");
     assertEquals(postIndexOptionsModel.def(), indexDefinitionModel);
-    assertEquals(postIndexOptionsModel.index(), indexDefinitionModel);
     assertEquals(postIndexOptionsModel.name(), "testString");
     assertEquals(postIndexOptionsModel.partialFilterSelector(), new java.util.HashMap<String, Object>() { { put("foo", "testString"); } });
     assertEquals(postIndexOptionsModel.partitioned(), Boolean.valueOf(true));

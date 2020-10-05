@@ -12,7 +12,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.12.0-64fe8d3f-20200820-144050
+ * IBM OpenAPI SDK Code Generator Version: 3.12.3-81ed37e0-20200929-215851
  */
 
 package com.ibm.cloud.cloudant.v1;
@@ -32,7 +32,6 @@ import com.ibm.cloud.cloudant.v1.model.DeleteAttachmentOptions;
 import com.ibm.cloud.cloudant.v1.model.DeleteDatabaseOptions;
 import com.ibm.cloud.cloudant.v1.model.DeleteDesignDocumentOptions;
 import com.ibm.cloud.cloudant.v1.model.DeleteDocumentOptions;
-import com.ibm.cloud.cloudant.v1.model.DeleteIamSessionOptions;
 import com.ibm.cloud.cloudant.v1.model.DeleteIndexOptions;
 import com.ibm.cloud.cloudant.v1.model.DeleteLocalDocumentOptions;
 import com.ibm.cloud.cloudant.v1.model.DeleteReplicationDocumentOptions;
@@ -41,7 +40,6 @@ import com.ibm.cloud.cloudant.v1.model.DesignDocumentInformation;
 import com.ibm.cloud.cloudant.v1.model.Document;
 import com.ibm.cloud.cloudant.v1.model.DocumentResult;
 import com.ibm.cloud.cloudant.v1.model.DocumentShardInfo;
-import com.ibm.cloud.cloudant.v1.model.EnsureFullCommitInformation;
 import com.ibm.cloud.cloudant.v1.model.ExplainResult;
 import com.ibm.cloud.cloudant.v1.model.FindResult;
 import com.ibm.cloud.cloudant.v1.model.GeoIndexInformation;
@@ -58,7 +56,6 @@ import com.ibm.cloud.cloudant.v1.model.GetDocumentOptions;
 import com.ibm.cloud.cloudant.v1.model.GetDocumentShardsInfoOptions;
 import com.ibm.cloud.cloudant.v1.model.GetGeoIndexInformationOptions;
 import com.ibm.cloud.cloudant.v1.model.GetGeoOptions;
-import com.ibm.cloud.cloudant.v1.model.GetIamSessionInformationOptions;
 import com.ibm.cloud.cloudant.v1.model.GetIndexesInformationOptions;
 import com.ibm.cloud.cloudant.v1.model.GetLocalDocumentOptions;
 import com.ibm.cloud.cloudant.v1.model.GetMembershipInformationOptions;
@@ -81,7 +78,6 @@ import com.ibm.cloud.cloudant.v1.model.HeadDesignDocumentOptions;
 import com.ibm.cloud.cloudant.v1.model.HeadDocumentOptions;
 import com.ibm.cloud.cloudant.v1.model.HeadReplicationDocumentOptions;
 import com.ibm.cloud.cloudant.v1.model.HeadSchedulerJobOptions;
-import com.ibm.cloud.cloudant.v1.model.IamSessionInformation;
 import com.ibm.cloud.cloudant.v1.model.IndexResult;
 import com.ibm.cloud.cloudant.v1.model.IndexesInformation;
 import com.ibm.cloud.cloudant.v1.model.MembershipInformation;
@@ -98,11 +94,9 @@ import com.ibm.cloud.cloudant.v1.model.PostDbsInfoOptions;
 import com.ibm.cloud.cloudant.v1.model.PostDesignDocsOptions;
 import com.ibm.cloud.cloudant.v1.model.PostDesignDocsQueriesOptions;
 import com.ibm.cloud.cloudant.v1.model.PostDocumentOptions;
-import com.ibm.cloud.cloudant.v1.model.PostEnsureFullCommitOptions;
 import com.ibm.cloud.cloudant.v1.model.PostExplainOptions;
 import com.ibm.cloud.cloudant.v1.model.PostFindOptions;
 import com.ibm.cloud.cloudant.v1.model.PostGeoCleanupOptions;
-import com.ibm.cloud.cloudant.v1.model.PostIamSessionOptions;
 import com.ibm.cloud.cloudant.v1.model.PostIndexOptions;
 import com.ibm.cloud.cloudant.v1.model.PostLocalDocsOptions;
 import com.ibm.cloud.cloudant.v1.model.PostLocalDocsQueriesOptions;
@@ -144,16 +138,17 @@ import com.ibm.cloud.cloudant.v1.model.UpInformation;
 import com.ibm.cloud.cloudant.v1.model.UuidsResult;
 import com.ibm.cloud.cloudant.v1.model.ViewQueriesResult;
 import com.ibm.cloud.cloudant.v1.model.ViewResult;
-import com.ibm.cloud.cloudant.common.SdkCommon;
+import com.ibm.cloud.common.SdkCommon;
 import com.ibm.cloud.sdk.core.http.RequestBuilder;
 import com.ibm.cloud.sdk.core.http.ResponseConverter;
 import com.ibm.cloud.sdk.core.http.ServiceCall;
 import com.ibm.cloud.sdk.core.security.Authenticator;
-
-
+import com.ibm.cloud.sdk.core.security.ConfigBasedAuthenticatorFactory;
+import com.ibm.cloud.sdk.core.service.BaseService;
 import com.ibm.cloud.sdk.core.util.RequestUtils;
 import com.ibm.cloud.sdk.core.util.ResponseConverterUtils;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -164,7 +159,7 @@ import java.util.Map.Entry;
  * @version v1
  * @see <a href="https://cloud.ibm.com/docs/services/Cloudant/">Cloudant</a>
  */
-public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseService {
+public class Cloudant extends BaseService {
 
   public static final String DEFAULT_SERVICE_NAME = "cloudant";
 
@@ -188,7 +183,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
    * @return an instance of the `Cloudant` client using external configuration
    */
   public static Cloudant newInstance(String serviceName) {
-    Authenticator authenticator = com.ibm.cloud.cloudant.internal.DelegatingAuthenticatorFactory.getAuthenticator(serviceName);
+    Authenticator authenticator = ConfigBasedAuthenticatorFactory.getAuthenticator(serviceName);
     Cloudant service = new Cloudant(serviceName, authenticator);
     service.configureService(serviceName);
     return service;
@@ -217,8 +212,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
    * @return a {@link ServiceCall} with a result of type {@link ServerInformation}
    */
   public ServiceCall<ServerInformation> getServerInformation(GetServerInformationOptions getServerInformationOptions) {
-    String[] pathSegments = { "" };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/"));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getServerInformation");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -253,8 +247,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
    * @return a {@link ServiceCall} with a result of type {@link MembershipInformation}
    */
   public ServiceCall<MembershipInformation> getMembershipInformation(GetMembershipInformationOptions getMembershipInformationOptions) {
-    String[] pathSegments = { "_membership" };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_membership"));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getMembershipInformation");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -291,8 +284,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
     if (getUuidsOptions == null) {
       getUuidsOptions = new GetUuidsOptions.Builder().build();
     }
-    String[] pathSegments = { "_uuids" };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_uuids"));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getUuids");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -330,9 +322,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<Void> headDatabase(HeadDatabaseOptions headDatabaseOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(headDatabaseOptions,
       "headDatabaseOptions cannot be null");
-    String[] pathSegments = { "" };
-    String[] pathParameters = { headDatabaseOptions.db() };
-    RequestBuilder builder = RequestBuilder.head(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", headDatabaseOptions.db());
+    RequestBuilder builder = RequestBuilder.head(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "headDatabase");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -351,8 +343,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
     if (getAllDbsOptions == null) {
       getAllDbsOptions = new GetAllDbsOptions.Builder().build();
     }
-    String[] pathSegments = { "_all_dbs" };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_all_dbs"));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getAllDbs");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -362,7 +353,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("descending", String.valueOf(getAllDbsOptions.descending()));
     }
     if (getAllDbsOptions.endkey() != null) {
-      builder.query("endkey", getAllDbsOptions.endkey());
+      builder.query("endkey", String.valueOf(getAllDbsOptions.endkey()));
     }
     if (getAllDbsOptions.limit() != null) {
       builder.query("limit", String.valueOf(getAllDbsOptions.limit()));
@@ -371,7 +362,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("skip", String.valueOf(getAllDbsOptions.skip()));
     }
     if (getAllDbsOptions.startkey() != null) {
-      builder.query("startkey", getAllDbsOptions.startkey());
+      builder.query("startkey", String.valueOf(getAllDbsOptions.startkey()));
     }
     ResponseConverter<List<String>> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<List<String>>() { }.getType());
@@ -398,41 +389,20 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
    * @return a {@link ServiceCall} with a result of type {@link List}
    */
   public ServiceCall<List<DbsInfoResult>> postDbsInfo(PostDbsInfoOptions postDbsInfoOptions) {
-    boolean skipBody = false;
-    if (postDbsInfoOptions == null) {
-      postDbsInfoOptions = new PostDbsInfoOptions.Builder().build();
-      skipBody = true;
-    }
-    String[] pathSegments = { "_dbs_info" };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
+    com.ibm.cloud.sdk.core.util.Validator.notNull(postDbsInfoOptions,
+      "postDbsInfoOptions cannot be null");
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_dbs_info"));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postDbsInfo");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    if (!skipBody) {
-      final JsonObject contentJson = new JsonObject();
-      if (postDbsInfoOptions.keys() != null) {
-        contentJson.add("keys", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postDbsInfoOptions.keys()));
-      }
-      builder.bodyJson(contentJson);
-    }
+    final JsonObject contentJson = new JsonObject();
+    contentJson.add("keys", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postDbsInfoOptions.keys()));
+    builder.bodyJson(contentJson);
     ResponseConverter<List<DbsInfoResult>> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<List<DbsInfoResult>>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
-  }
-
-  /**
-   * Query information about multiple databases.
-   *
-   * This operation enables you to request information about multiple databases in a single request, instead of issuing
-   * multiple `GET /{db}` requests. It returns a list that contains an information object for each database specified in
-   * the request.
-   *
-   * @return a {@link ServiceCall} with a result of type {@link List}
-   */
-  public ServiceCall<List<DbsInfoResult>> postDbsInfo() {
-    return postDbsInfo(null);
   }
 
   /**
@@ -448,9 +418,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<Ok> deleteDatabase(DeleteDatabaseOptions deleteDatabaseOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(deleteDatabaseOptions,
       "deleteDatabaseOptions cannot be null");
-    String[] pathSegments = { "" };
-    String[] pathParameters = { deleteDatabaseOptions.db() };
-    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", deleteDatabaseOptions.db());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "deleteDatabase");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -470,9 +440,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<DatabaseInformation> getDatabaseInformation(GetDatabaseInformationOptions getDatabaseInformationOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getDatabaseInformationOptions,
       "getDatabaseInformationOptions cannot be null");
-    String[] pathSegments = { "" };
-    String[] pathParameters = { getDatabaseInformationOptions.db() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", getDatabaseInformationOptions.db());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getDatabaseInformation");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -492,9 +462,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<Ok> putDatabase(PutDatabaseOptions putDatabaseOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(putDatabaseOptions,
       "putDatabaseOptions cannot be null");
-    String[] pathSegments = { "" };
-    String[] pathParameters = { putDatabaseOptions.db() };
-    RequestBuilder builder = RequestBuilder.put(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", putDatabaseOptions.db());
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "putDatabase");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -523,9 +493,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<ChangesResult> postChanges(PostChangesOptions postChangesOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postChangesOptions,
       "postChangesOptions cannot be null");
-    String[] pathSegments = { "", "_changes" };
-    String[] pathParameters = { postChangesOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postChangesOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_changes", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postChanges");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -547,10 +517,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("descending", String.valueOf(postChangesOptions.descending()));
     }
     if (postChangesOptions.feed() != null) {
-      builder.query("feed", postChangesOptions.feed());
+      builder.query("feed", String.valueOf(postChangesOptions.feed()));
     }
     if (postChangesOptions.filter() != null) {
-      builder.query("filter", postChangesOptions.filter());
+      builder.query("filter", String.valueOf(postChangesOptions.filter()));
     }
     if (postChangesOptions.heartbeat() != null) {
       builder.query("heartbeat", String.valueOf(postChangesOptions.heartbeat()));
@@ -565,16 +535,16 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("seq_interval", String.valueOf(postChangesOptions.seqInterval()));
     }
     if (postChangesOptions.since() != null) {
-      builder.query("since", postChangesOptions.since());
+      builder.query("since", String.valueOf(postChangesOptions.since()));
     }
     if (postChangesOptions.style() != null) {
-      builder.query("style", postChangesOptions.style());
+      builder.query("style", String.valueOf(postChangesOptions.style()));
     }
     if (postChangesOptions.timeout() != null) {
       builder.query("timeout", String.valueOf(postChangesOptions.timeout()));
     }
     if (postChangesOptions.view() != null) {
-      builder.query("view", postChangesOptions.view());
+      builder.query("view", String.valueOf(postChangesOptions.view()));
     }
     final JsonObject contentJson = new JsonObject();
     if (postChangesOptions.docIds() != null) {
@@ -604,9 +574,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<InputStream> postChangesAsStream(PostChangesOptions postChangesOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postChangesOptions,
       "postChangesOptions cannot be null");
-    String[] pathSegments = { "", "_changes" };
-    String[] pathParameters = { postChangesOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postChangesOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_changes", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postChangesAsStream");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -628,10 +598,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("descending", String.valueOf(postChangesOptions.descending()));
     }
     if (postChangesOptions.feed() != null) {
-      builder.query("feed", postChangesOptions.feed());
+      builder.query("feed", String.valueOf(postChangesOptions.feed()));
     }
     if (postChangesOptions.filter() != null) {
-      builder.query("filter", postChangesOptions.filter());
+      builder.query("filter", String.valueOf(postChangesOptions.filter()));
     }
     if (postChangesOptions.heartbeat() != null) {
       builder.query("heartbeat", String.valueOf(postChangesOptions.heartbeat()));
@@ -646,16 +616,16 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("seq_interval", String.valueOf(postChangesOptions.seqInterval()));
     }
     if (postChangesOptions.since() != null) {
-      builder.query("since", postChangesOptions.since());
+      builder.query("since", String.valueOf(postChangesOptions.since()));
     }
     if (postChangesOptions.style() != null) {
-      builder.query("style", postChangesOptions.style());
+      builder.query("style", String.valueOf(postChangesOptions.style()));
     }
     if (postChangesOptions.timeout() != null) {
       builder.query("timeout", String.valueOf(postChangesOptions.timeout()));
     }
     if (postChangesOptions.view() != null) {
-      builder.query("view", postChangesOptions.view());
+      builder.query("view", String.valueOf(postChangesOptions.view()));
     }
     final JsonObject contentJson = new JsonObject();
     if (postChangesOptions.docIds() != null) {
@@ -686,9 +656,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<Void> headDocument(HeadDocumentOptions headDocumentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(headDocumentOptions,
       "headDocumentOptions cannot be null");
-    String[] pathSegments = { "", "" };
-    String[] pathParameters = { headDocumentOptions.db(), headDocumentOptions.docId() };
-    RequestBuilder builder = RequestBuilder.head(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", headDocumentOptions.db());
+    pathParamsMap.put("doc_id", headDocumentOptions.docId());
+    RequestBuilder builder = RequestBuilder.head(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/{doc_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "headDocument");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -700,7 +671,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("latest", String.valueOf(headDocumentOptions.latest()));
     }
     if (headDocumentOptions.rev() != null) {
-      builder.query("rev", headDocumentOptions.rev());
+      builder.query("rev", String.valueOf(headDocumentOptions.rev()));
     }
     ResponseConverter<Void> responseConverter = ResponseConverterUtils.getVoid();
     return createServiceCall(builder.build(), responseConverter);
@@ -722,9 +693,13 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<DocumentResult> postDocument(PostDocumentOptions postDocumentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postDocumentOptions,
       "postDocumentOptions cannot be null");
-    String[] pathSegments = { "" };
-    String[] pathParameters = { postDocumentOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+
+    if (postDocumentOptions.document() != null && postDocumentOptions.contentType() == null) {
+      postDocumentOptions = postDocumentOptions.newBuilder().contentType("application/json").build();
+    }
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postDocumentOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postDocument");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -734,10 +709,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.header("Content-Type", postDocumentOptions.contentType());
     }
     if (postDocumentOptions.batch() != null) {
-      builder.query("batch", postDocumentOptions.batch());
+      builder.query("batch", String.valueOf(postDocumentOptions.batch()));
     }
-    String contentType = postDocumentOptions.contentType() == null ? "application/json" : postDocumentOptions.contentType();
-    builder.bodyContent(contentType, postDocumentOptions.document(),
+    builder.bodyContent(postDocumentOptions.contentType(), postDocumentOptions.document(),
       null, postDocumentOptions.body());
     ResponseConverter<DocumentResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<DocumentResult>() { }.getType());
@@ -758,9 +732,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<AllDocsResult> postAllDocs(PostAllDocsOptions postAllDocsOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postAllDocsOptions,
       "postAllDocsOptions cannot be null");
-    String[] pathSegments = { "", "_all_docs" };
-    String[] pathParameters = { postAllDocsOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postAllDocsOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_all_docs", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postAllDocs");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -826,9 +800,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<InputStream> postAllDocsAsStream(PostAllDocsOptions postAllDocsOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postAllDocsOptions,
       "postAllDocsOptions cannot be null");
-    String[] pathSegments = { "", "_all_docs" };
-    String[] pathParameters = { postAllDocsOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postAllDocsOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_all_docs", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postAllDocsAsStream");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -892,18 +866,16 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<AllDocsQueriesResult> postAllDocsQueries(PostAllDocsQueriesOptions postAllDocsQueriesOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postAllDocsQueriesOptions,
       "postAllDocsQueriesOptions cannot be null");
-    String[] pathSegments = { "", "_all_docs/queries" };
-    String[] pathParameters = { postAllDocsQueriesOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postAllDocsQueriesOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_all_docs/queries", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postAllDocsQueries");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
     final JsonObject contentJson = new JsonObject();
-    if (postAllDocsQueriesOptions.queries() != null) {
-      contentJson.add("queries", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postAllDocsQueriesOptions.queries()));
-    }
+    contentJson.add("queries", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postAllDocsQueriesOptions.queries()));
     builder.bodyJson(contentJson);
     ResponseConverter<AllDocsQueriesResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<AllDocsQueriesResult>() { }.getType());
@@ -923,18 +895,16 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<InputStream> postAllDocsQueriesAsStream(PostAllDocsQueriesOptions postAllDocsQueriesOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postAllDocsQueriesOptions,
       "postAllDocsQueriesOptions cannot be null");
-    String[] pathSegments = { "", "_all_docs/queries" };
-    String[] pathParameters = { postAllDocsQueriesOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postAllDocsQueriesOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_all_docs/queries", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postAllDocsQueriesAsStream");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
     final JsonObject contentJson = new JsonObject();
-    if (postAllDocsQueriesOptions.queries() != null) {
-      contentJson.add("queries", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postAllDocsQueriesOptions.queries()));
-    }
+    contentJson.add("queries", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postAllDocsQueriesOptions.queries()));
     builder.bodyJson(contentJson);
     ResponseConverter<InputStream> responseConverter = ResponseConverterUtils.getInputStream();
     return createServiceCall(builder.build(), responseConverter);
@@ -953,9 +923,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<List<DocumentResult>> postBulkDocs(PostBulkDocsOptions postBulkDocsOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postBulkDocsOptions,
       "postBulkDocsOptions cannot be null");
-    String[] pathSegments = { "", "_bulk_docs" };
-    String[] pathParameters = { postBulkDocsOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postBulkDocsOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_bulk_docs", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postBulkDocs");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -979,9 +949,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<BulkGetResult> postBulkGet(PostBulkGetOptions postBulkGetOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postBulkGetOptions,
       "postBulkGetOptions cannot be null");
-    String[] pathSegments = { "", "_bulk_get" };
-    String[] pathParameters = { postBulkGetOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postBulkGetOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_bulk_get", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postBulkGet");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1000,9 +970,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("revs", String.valueOf(postBulkGetOptions.revs()));
     }
     final JsonObject contentJson = new JsonObject();
-    if (postBulkGetOptions.docs() != null) {
-      contentJson.add("docs", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postBulkGetOptions.docs()));
-    }
+    contentJson.add("docs", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postBulkGetOptions.docs()));
     builder.bodyJson(contentJson);
     ResponseConverter<BulkGetResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<BulkGetResult>() { }.getType());
@@ -1020,9 +988,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<InputStream> postBulkGetAsMixed(PostBulkGetOptions postBulkGetOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postBulkGetOptions,
       "postBulkGetOptions cannot be null");
-    String[] pathSegments = { "", "_bulk_get" };
-    String[] pathParameters = { postBulkGetOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postBulkGetOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_bulk_get", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postBulkGetAsMixed");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1041,9 +1009,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("revs", String.valueOf(postBulkGetOptions.revs()));
     }
     final JsonObject contentJson = new JsonObject();
-    if (postBulkGetOptions.docs() != null) {
-      contentJson.add("docs", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postBulkGetOptions.docs()));
-    }
+    contentJson.add("docs", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postBulkGetOptions.docs()));
     builder.bodyJson(contentJson);
     ResponseConverter<InputStream> responseConverter = ResponseConverterUtils.getInputStream();
     return createServiceCall(builder.build(), responseConverter);
@@ -1060,9 +1026,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<InputStream> postBulkGetAsRelated(PostBulkGetOptions postBulkGetOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postBulkGetOptions,
       "postBulkGetOptions cannot be null");
-    String[] pathSegments = { "", "_bulk_get" };
-    String[] pathParameters = { postBulkGetOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postBulkGetOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_bulk_get", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postBulkGetAsRelated");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1081,9 +1047,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("revs", String.valueOf(postBulkGetOptions.revs()));
     }
     final JsonObject contentJson = new JsonObject();
-    if (postBulkGetOptions.docs() != null) {
-      contentJson.add("docs", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postBulkGetOptions.docs()));
-    }
+    contentJson.add("docs", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postBulkGetOptions.docs()));
     builder.bodyJson(contentJson);
     ResponseConverter<InputStream> responseConverter = ResponseConverterUtils.getInputStream();
     return createServiceCall(builder.build(), responseConverter);
@@ -1100,9 +1064,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<InputStream> postBulkGetAsStream(PostBulkGetOptions postBulkGetOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postBulkGetOptions,
       "postBulkGetOptions cannot be null");
-    String[] pathSegments = { "", "_bulk_get" };
-    String[] pathParameters = { postBulkGetOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postBulkGetOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_bulk_get", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postBulkGetAsStream");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1121,9 +1085,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("revs", String.valueOf(postBulkGetOptions.revs()));
     }
     final JsonObject contentJson = new JsonObject();
-    if (postBulkGetOptions.docs() != null) {
-      contentJson.add("docs", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postBulkGetOptions.docs()));
-    }
+    contentJson.add("docs", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postBulkGetOptions.docs()));
     builder.bodyJson(contentJson);
     ResponseConverter<InputStream> responseConverter = ResponseConverterUtils.getInputStream();
     return createServiceCall(builder.build(), responseConverter);
@@ -1142,9 +1104,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<DocumentResult> deleteDocument(DeleteDocumentOptions deleteDocumentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(deleteDocumentOptions,
       "deleteDocumentOptions cannot be null");
-    String[] pathSegments = { "", "" };
-    String[] pathParameters = { deleteDocumentOptions.db(), deleteDocumentOptions.docId() };
-    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", deleteDocumentOptions.db());
+    pathParamsMap.put("doc_id", deleteDocumentOptions.docId());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/{doc_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "deleteDocument");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1154,10 +1117,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.header("If-Match", deleteDocumentOptions.ifMatch());
     }
     if (deleteDocumentOptions.batch() != null) {
-      builder.query("batch", deleteDocumentOptions.batch());
+      builder.query("batch", String.valueOf(deleteDocumentOptions.batch()));
     }
     if (deleteDocumentOptions.rev() != null) {
-      builder.query("rev", deleteDocumentOptions.rev());
+      builder.query("rev", String.valueOf(deleteDocumentOptions.rev()));
     }
     ResponseConverter<DocumentResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<DocumentResult>() { }.getType());
@@ -1176,9 +1139,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<Document> getDocument(GetDocumentOptions getDocumentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getDocumentOptions,
       "getDocumentOptions cannot be null");
-    String[] pathSegments = { "", "" };
-    String[] pathParameters = { getDocumentOptions.db(), getDocumentOptions.docId() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", getDocumentOptions.db());
+    pathParamsMap.put("doc_id", getDocumentOptions.docId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/{doc_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getDocument");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1215,7 +1179,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("open_revs", RequestUtils.join(getDocumentOptions.openRevs(), ","));
     }
     if (getDocumentOptions.rev() != null) {
-      builder.query("rev", getDocumentOptions.rev());
+      builder.query("rev", String.valueOf(getDocumentOptions.rev()));
     }
     if (getDocumentOptions.revs() != null) {
       builder.query("revs", String.valueOf(getDocumentOptions.revs()));
@@ -1240,9 +1204,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<InputStream> getDocumentAsMixed(GetDocumentOptions getDocumentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getDocumentOptions,
       "getDocumentOptions cannot be null");
-    String[] pathSegments = { "", "" };
-    String[] pathParameters = { getDocumentOptions.db(), getDocumentOptions.docId() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", getDocumentOptions.db());
+    pathParamsMap.put("doc_id", getDocumentOptions.docId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/{doc_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getDocumentAsMixed");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1279,7 +1244,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("open_revs", RequestUtils.join(getDocumentOptions.openRevs(), ","));
     }
     if (getDocumentOptions.rev() != null) {
-      builder.query("rev", getDocumentOptions.rev());
+      builder.query("rev", String.valueOf(getDocumentOptions.rev()));
     }
     if (getDocumentOptions.revs() != null) {
       builder.query("revs", String.valueOf(getDocumentOptions.revs()));
@@ -1303,9 +1268,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<InputStream> getDocumentAsRelated(GetDocumentOptions getDocumentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getDocumentOptions,
       "getDocumentOptions cannot be null");
-    String[] pathSegments = { "", "" };
-    String[] pathParameters = { getDocumentOptions.db(), getDocumentOptions.docId() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", getDocumentOptions.db());
+    pathParamsMap.put("doc_id", getDocumentOptions.docId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/{doc_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getDocumentAsRelated");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1342,7 +1308,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("open_revs", RequestUtils.join(getDocumentOptions.openRevs(), ","));
     }
     if (getDocumentOptions.rev() != null) {
-      builder.query("rev", getDocumentOptions.rev());
+      builder.query("rev", String.valueOf(getDocumentOptions.rev()));
     }
     if (getDocumentOptions.revs() != null) {
       builder.query("revs", String.valueOf(getDocumentOptions.revs()));
@@ -1366,9 +1332,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<InputStream> getDocumentAsStream(GetDocumentOptions getDocumentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getDocumentOptions,
       "getDocumentOptions cannot be null");
-    String[] pathSegments = { "", "" };
-    String[] pathParameters = { getDocumentOptions.db(), getDocumentOptions.docId() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", getDocumentOptions.db());
+    pathParamsMap.put("doc_id", getDocumentOptions.docId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/{doc_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getDocumentAsStream");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1405,7 +1372,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("open_revs", RequestUtils.join(getDocumentOptions.openRevs(), ","));
     }
     if (getDocumentOptions.rev() != null) {
-      builder.query("rev", getDocumentOptions.rev());
+      builder.query("rev", String.valueOf(getDocumentOptions.rev()));
     }
     if (getDocumentOptions.revs() != null) {
       builder.query("revs", String.valueOf(getDocumentOptions.revs()));
@@ -1429,9 +1396,14 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<DocumentResult> putDocument(PutDocumentOptions putDocumentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(putDocumentOptions,
       "putDocumentOptions cannot be null");
-    String[] pathSegments = { "", "" };
-    String[] pathParameters = { putDocumentOptions.db(), putDocumentOptions.docId() };
-    RequestBuilder builder = RequestBuilder.put(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+
+    if (putDocumentOptions.document() != null && putDocumentOptions.contentType() == null) {
+      putDocumentOptions = putDocumentOptions.newBuilder().contentType("application/json").build();
+    }
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", putDocumentOptions.db());
+    pathParamsMap.put("doc_id", putDocumentOptions.docId());
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/{doc_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "putDocument");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1444,16 +1416,15 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.header("If-Match", putDocumentOptions.ifMatch());
     }
     if (putDocumentOptions.batch() != null) {
-      builder.query("batch", putDocumentOptions.batch());
+      builder.query("batch", String.valueOf(putDocumentOptions.batch()));
     }
     if (putDocumentOptions.newEdits() != null) {
       builder.query("new_edits", String.valueOf(putDocumentOptions.newEdits()));
     }
     if (putDocumentOptions.rev() != null) {
-      builder.query("rev", putDocumentOptions.rev());
+      builder.query("rev", String.valueOf(putDocumentOptions.rev()));
     }
-    String contentType = putDocumentOptions.contentType() == null ? "application/json" : putDocumentOptions.contentType();
-    builder.bodyContent(contentType, putDocumentOptions.document(),
+    builder.bodyContent(putDocumentOptions.contentType(), putDocumentOptions.document(),
       null, putDocumentOptions.body());
     ResponseConverter<DocumentResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<DocumentResult>() { }.getType());
@@ -1475,9 +1446,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<Void> headDesignDocument(HeadDesignDocumentOptions headDesignDocumentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(headDesignDocumentOptions,
       "headDesignDocumentOptions cannot be null");
-    String[] pathSegments = { "", "_design" };
-    String[] pathParameters = { headDesignDocumentOptions.db(), headDesignDocumentOptions.ddoc() };
-    RequestBuilder builder = RequestBuilder.head(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", headDesignDocumentOptions.db());
+    pathParamsMap.put("ddoc", headDesignDocumentOptions.ddoc());
+    RequestBuilder builder = RequestBuilder.head(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_design/{ddoc}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "headDesignDocument");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1502,9 +1474,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<DocumentResult> deleteDesignDocument(DeleteDesignDocumentOptions deleteDesignDocumentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(deleteDesignDocumentOptions,
       "deleteDesignDocumentOptions cannot be null");
-    String[] pathSegments = { "", "_design" };
-    String[] pathParameters = { deleteDesignDocumentOptions.db(), deleteDesignDocumentOptions.ddoc() };
-    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", deleteDesignDocumentOptions.db());
+    pathParamsMap.put("ddoc", deleteDesignDocumentOptions.ddoc());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_design/{ddoc}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "deleteDesignDocument");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1514,10 +1487,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.header("If-Match", deleteDesignDocumentOptions.ifMatch());
     }
     if (deleteDesignDocumentOptions.batch() != null) {
-      builder.query("batch", deleteDesignDocumentOptions.batch());
+      builder.query("batch", String.valueOf(deleteDesignDocumentOptions.batch()));
     }
     if (deleteDesignDocumentOptions.rev() != null) {
-      builder.query("rev", deleteDesignDocumentOptions.rev());
+      builder.query("rev", String.valueOf(deleteDesignDocumentOptions.rev()));
     }
     ResponseConverter<DocumentResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<DocumentResult>() { }.getType());
@@ -1536,9 +1509,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<DesignDocument> getDesignDocument(GetDesignDocumentOptions getDesignDocumentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getDesignDocumentOptions,
       "getDesignDocumentOptions cannot be null");
-    String[] pathSegments = { "", "_design" };
-    String[] pathParameters = { getDesignDocumentOptions.db(), getDesignDocumentOptions.ddoc() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", getDesignDocumentOptions.db());
+    pathParamsMap.put("ddoc", getDesignDocumentOptions.ddoc());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_design/{ddoc}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getDesignDocument");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1575,7 +1549,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("open_revs", RequestUtils.join(getDesignDocumentOptions.openRevs(), ","));
     }
     if (getDesignDocumentOptions.rev() != null) {
-      builder.query("rev", getDesignDocumentOptions.rev());
+      builder.query("rev", String.valueOf(getDesignDocumentOptions.rev()));
     }
     if (getDesignDocumentOptions.revs() != null) {
       builder.query("revs", String.valueOf(getDesignDocumentOptions.revs()));
@@ -1599,9 +1573,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<DocumentResult> putDesignDocument(PutDesignDocumentOptions putDesignDocumentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(putDesignDocumentOptions,
       "putDesignDocumentOptions cannot be null");
-    String[] pathSegments = { "", "_design" };
-    String[] pathParameters = { putDesignDocumentOptions.db(), putDesignDocumentOptions.ddoc() };
-    RequestBuilder builder = RequestBuilder.put(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", putDesignDocumentOptions.db());
+    pathParamsMap.put("ddoc", putDesignDocumentOptions.ddoc());
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_design/{ddoc}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "putDesignDocument");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1611,17 +1586,15 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.header("If-Match", putDesignDocumentOptions.ifMatch());
     }
     if (putDesignDocumentOptions.batch() != null) {
-      builder.query("batch", putDesignDocumentOptions.batch());
+      builder.query("batch", String.valueOf(putDesignDocumentOptions.batch()));
     }
     if (putDesignDocumentOptions.newEdits() != null) {
       builder.query("new_edits", String.valueOf(putDesignDocumentOptions.newEdits()));
     }
     if (putDesignDocumentOptions.rev() != null) {
-      builder.query("rev", putDesignDocumentOptions.rev());
+      builder.query("rev", String.valueOf(putDesignDocumentOptions.rev()));
     }
-    if (putDesignDocumentOptions.designDocument() != null) {
-      builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(putDesignDocumentOptions.designDocument()), "application/json");
-    }
+    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(putDesignDocumentOptions.designDocument()), "application/json");
     ResponseConverter<DocumentResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<DocumentResult>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
@@ -1639,9 +1612,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<DesignDocumentInformation> getDesignDocumentInformation(GetDesignDocumentInformationOptions getDesignDocumentInformationOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getDesignDocumentInformationOptions,
       "getDesignDocumentInformationOptions cannot be null");
-    String[] pathSegments = { "", "_design", "_info" };
-    String[] pathParameters = { getDesignDocumentInformationOptions.db(), getDesignDocumentInformationOptions.ddoc() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", getDesignDocumentInformationOptions.db());
+    pathParamsMap.put("ddoc", getDesignDocumentInformationOptions.ddoc());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_design/{ddoc}/_info", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getDesignDocumentInformation");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1666,9 +1640,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<AllDocsResult> postDesignDocs(PostDesignDocsOptions postDesignDocsOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postDesignDocsOptions,
       "postDesignDocsOptions cannot be null");
-    String[] pathSegments = { "", "_design_docs" };
-    String[] pathParameters = { postDesignDocsOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postDesignDocsOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_design_docs", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postDesignDocs");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1734,9 +1708,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<AllDocsQueriesResult> postDesignDocsQueries(PostDesignDocsQueriesOptions postDesignDocsQueriesOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postDesignDocsQueriesOptions,
       "postDesignDocsQueriesOptions cannot be null");
-    String[] pathSegments = { "", "_design_docs/queries" };
-    String[] pathParameters = { postDesignDocsQueriesOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postDesignDocsQueriesOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_design_docs/queries", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postDesignDocsQueries");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1745,9 +1719,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.header("Accept", postDesignDocsQueriesOptions.accept());
     }
     final JsonObject contentJson = new JsonObject();
-    if (postDesignDocsQueriesOptions.queries() != null) {
-      contentJson.add("queries", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postDesignDocsQueriesOptions.queries()));
-    }
+    contentJson.add("queries", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postDesignDocsQueriesOptions.queries()));
     builder.bodyJson(contentJson);
     ResponseConverter<AllDocsQueriesResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<AllDocsQueriesResult>() { }.getType());
@@ -1768,9 +1740,11 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<ViewResult> postView(PostViewOptions postViewOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postViewOptions,
       "postViewOptions cannot be null");
-    String[] pathSegments = { "", "_design", "_view" };
-    String[] pathParameters = { postViewOptions.db(), postViewOptions.ddoc(), postViewOptions.view() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postViewOptions.db());
+    pathParamsMap.put("ddoc", postViewOptions.ddoc());
+    pathParamsMap.put("view", postViewOptions.view());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_design/{ddoc}/_view/{view}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postView");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1857,9 +1831,11 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<InputStream> postViewAsStream(PostViewOptions postViewOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postViewOptions,
       "postViewOptions cannot be null");
-    String[] pathSegments = { "", "_design", "_view" };
-    String[] pathParameters = { postViewOptions.db(), postViewOptions.ddoc(), postViewOptions.view() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postViewOptions.db());
+    pathParamsMap.put("ddoc", postViewOptions.ddoc());
+    pathParamsMap.put("view", postViewOptions.view());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_design/{ddoc}/_view/{view}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postViewAsStream");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1942,18 +1918,18 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<ViewQueriesResult> postViewQueries(PostViewQueriesOptions postViewQueriesOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postViewQueriesOptions,
       "postViewQueriesOptions cannot be null");
-    String[] pathSegments = { "", "_design", "_view", "queries" };
-    String[] pathParameters = { postViewQueriesOptions.db(), postViewQueriesOptions.ddoc(), postViewQueriesOptions.view() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postViewQueriesOptions.db());
+    pathParamsMap.put("ddoc", postViewQueriesOptions.ddoc());
+    pathParamsMap.put("view", postViewQueriesOptions.view());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_design/{ddoc}/_view/{view}/queries", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postViewQueries");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
     final JsonObject contentJson = new JsonObject();
-    if (postViewQueriesOptions.queries() != null) {
-      contentJson.add("queries", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postViewQueriesOptions.queries()));
-    }
+    contentJson.add("queries", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postViewQueriesOptions.queries()));
     builder.bodyJson(contentJson);
     ResponseConverter<ViewQueriesResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ViewQueriesResult>() { }.getType());
@@ -1971,18 +1947,18 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<InputStream> postViewQueriesAsStream(PostViewQueriesOptions postViewQueriesOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postViewQueriesOptions,
       "postViewQueriesOptions cannot be null");
-    String[] pathSegments = { "", "_design", "_view", "queries" };
-    String[] pathParameters = { postViewQueriesOptions.db(), postViewQueriesOptions.ddoc(), postViewQueriesOptions.view() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postViewQueriesOptions.db());
+    pathParamsMap.put("ddoc", postViewQueriesOptions.ddoc());
+    pathParamsMap.put("view", postViewQueriesOptions.view());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_design/{ddoc}/_view/{view}/queries", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postViewQueriesAsStream");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
     final JsonObject contentJson = new JsonObject();
-    if (postViewQueriesOptions.queries() != null) {
-      contentJson.add("queries", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postViewQueriesOptions.queries()));
-    }
+    contentJson.add("queries", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postViewQueriesOptions.queries()));
     builder.bodyJson(contentJson);
     ResponseConverter<InputStream> responseConverter = ResponseConverterUtils.getInputStream();
     return createServiceCall(builder.build(), responseConverter);
@@ -1999,9 +1975,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<PartitionInformation> getPartitionInformation(GetPartitionInformationOptions getPartitionInformationOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getPartitionInformationOptions,
       "getPartitionInformationOptions cannot be null");
-    String[] pathSegments = { "", "_partition" };
-    String[] pathParameters = { getPartitionInformationOptions.db(), getPartitionInformationOptions.partitionKey() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", getPartitionInformationOptions.db());
+    pathParamsMap.put("partition_key", getPartitionInformationOptions.partitionKey());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_partition/{partition_key}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getPartitionInformation");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -2026,9 +2003,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<AllDocsResult> postPartitionAllDocs(PostPartitionAllDocsOptions postPartitionAllDocsOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postPartitionAllDocsOptions,
       "postPartitionAllDocsOptions cannot be null");
-    String[] pathSegments = { "", "_partition", "_all_docs" };
-    String[] pathParameters = { postPartitionAllDocsOptions.db(), postPartitionAllDocsOptions.partitionKey() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postPartitionAllDocsOptions.db());
+    pathParamsMap.put("partition_key", postPartitionAllDocsOptions.partitionKey());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_partition/{partition_key}/_all_docs", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postPartitionAllDocs");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -2094,9 +2072,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<InputStream> postPartitionAllDocsAsStream(PostPartitionAllDocsOptions postPartitionAllDocsOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postPartitionAllDocsOptions,
       "postPartitionAllDocsOptions cannot be null");
-    String[] pathSegments = { "", "_partition", "_all_docs" };
-    String[] pathParameters = { postPartitionAllDocsOptions.db(), postPartitionAllDocsOptions.partitionKey() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postPartitionAllDocsOptions.db());
+    pathParamsMap.put("partition_key", postPartitionAllDocsOptions.partitionKey());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_partition/{partition_key}/_all_docs", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postPartitionAllDocsAsStream");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -2160,15 +2139,19 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<SearchResult> postPartitionSearch(PostPartitionSearchOptions postPartitionSearchOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postPartitionSearchOptions,
       "postPartitionSearchOptions cannot be null");
-    String[] pathSegments = { "", "_partition", "_design", "_search" };
-    String[] pathParameters = { postPartitionSearchOptions.db(), postPartitionSearchOptions.partitionKey(), postPartitionSearchOptions.ddoc(), postPartitionSearchOptions.index() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postPartitionSearchOptions.db());
+    pathParamsMap.put("partition_key", postPartitionSearchOptions.partitionKey());
+    pathParamsMap.put("ddoc", postPartitionSearchOptions.ddoc());
+    pathParamsMap.put("index", postPartitionSearchOptions.index());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_partition/{partition_key}/_design/{ddoc}/_search/{index}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postPartitionSearch");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
     final JsonObject contentJson = new JsonObject();
+    contentJson.addProperty("query", postPartitionSearchOptions.query());
     if (postPartitionSearchOptions.bookmark() != null) {
       contentJson.addProperty("bookmark", postPartitionSearchOptions.bookmark());
     }
@@ -2195,9 +2178,6 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
     }
     if (postPartitionSearchOptions.limit() != null) {
       contentJson.addProperty("limit", postPartitionSearchOptions.limit());
-    }
-    if (postPartitionSearchOptions.query() != null) {
-      contentJson.addProperty("query", postPartitionSearchOptions.query());
     }
     if (postPartitionSearchOptions.sort() != null) {
       contentJson.add("sort", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postPartitionSearchOptions.sort()));
@@ -2224,15 +2204,19 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<InputStream> postPartitionSearchAsStream(PostPartitionSearchOptions postPartitionSearchOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postPartitionSearchOptions,
       "postPartitionSearchOptions cannot be null");
-    String[] pathSegments = { "", "_partition", "_design", "_search" };
-    String[] pathParameters = { postPartitionSearchOptions.db(), postPartitionSearchOptions.partitionKey(), postPartitionSearchOptions.ddoc(), postPartitionSearchOptions.index() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postPartitionSearchOptions.db());
+    pathParamsMap.put("partition_key", postPartitionSearchOptions.partitionKey());
+    pathParamsMap.put("ddoc", postPartitionSearchOptions.ddoc());
+    pathParamsMap.put("index", postPartitionSearchOptions.index());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_partition/{partition_key}/_design/{ddoc}/_search/{index}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postPartitionSearchAsStream");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
     final JsonObject contentJson = new JsonObject();
+    contentJson.addProperty("query", postPartitionSearchOptions.query());
     if (postPartitionSearchOptions.bookmark() != null) {
       contentJson.addProperty("bookmark", postPartitionSearchOptions.bookmark());
     }
@@ -2260,9 +2244,6 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
     if (postPartitionSearchOptions.limit() != null) {
       contentJson.addProperty("limit", postPartitionSearchOptions.limit());
     }
-    if (postPartitionSearchOptions.query() != null) {
-      contentJson.addProperty("query", postPartitionSearchOptions.query());
-    }
     if (postPartitionSearchOptions.sort() != null) {
       contentJson.add("sort", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postPartitionSearchOptions.sort()));
     }
@@ -2288,9 +2269,12 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<ViewResult> postPartitionView(PostPartitionViewOptions postPartitionViewOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postPartitionViewOptions,
       "postPartitionViewOptions cannot be null");
-    String[] pathSegments = { "", "_partition", "_design", "_view" };
-    String[] pathParameters = { postPartitionViewOptions.db(), postPartitionViewOptions.partitionKey(), postPartitionViewOptions.ddoc(), postPartitionViewOptions.view() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postPartitionViewOptions.db());
+    pathParamsMap.put("partition_key", postPartitionViewOptions.partitionKey());
+    pathParamsMap.put("ddoc", postPartitionViewOptions.ddoc());
+    pathParamsMap.put("view", postPartitionViewOptions.view());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_partition/{partition_key}/_design/{ddoc}/_view/{view}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postPartitionView");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -2377,9 +2361,12 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<InputStream> postPartitionViewAsStream(PostPartitionViewOptions postPartitionViewOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postPartitionViewOptions,
       "postPartitionViewOptions cannot be null");
-    String[] pathSegments = { "", "_partition", "_design", "_view" };
-    String[] pathParameters = { postPartitionViewOptions.db(), postPartitionViewOptions.partitionKey(), postPartitionViewOptions.ddoc(), postPartitionViewOptions.view() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postPartitionViewOptions.db());
+    pathParamsMap.put("partition_key", postPartitionViewOptions.partitionKey());
+    pathParamsMap.put("ddoc", postPartitionViewOptions.ddoc());
+    pathParamsMap.put("view", postPartitionViewOptions.view());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_partition/{partition_key}/_design/{ddoc}/_view/{view}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postPartitionViewAsStream");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -2463,15 +2450,17 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<FindResult> postPartitionFind(PostPartitionFindOptions postPartitionFindOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postPartitionFindOptions,
       "postPartitionFindOptions cannot be null");
-    String[] pathSegments = { "", "_partition", "_find" };
-    String[] pathParameters = { postPartitionFindOptions.db(), postPartitionFindOptions.partitionKey() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postPartitionFindOptions.db());
+    pathParamsMap.put("partition_key", postPartitionFindOptions.partitionKey());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_partition/{partition_key}/_find", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postPartitionFind");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
     final JsonObject contentJson = new JsonObject();
+    contentJson.add("selector", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postPartitionFindOptions.selector()));
     if (postPartitionFindOptions.bookmark() != null) {
       contentJson.addProperty("bookmark", postPartitionFindOptions.bookmark());
     }
@@ -2486,9 +2475,6 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
     }
     if (postPartitionFindOptions.limit() != null) {
       contentJson.addProperty("limit", postPartitionFindOptions.limit());
-    }
-    if (postPartitionFindOptions.selector() != null) {
-      contentJson.add("selector", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postPartitionFindOptions.selector()));
     }
     if (postPartitionFindOptions.skip() != null) {
       contentJson.addProperty("skip", postPartitionFindOptions.skip());
@@ -2523,15 +2509,17 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<InputStream> postPartitionFindAsStream(PostPartitionFindOptions postPartitionFindOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postPartitionFindOptions,
       "postPartitionFindOptions cannot be null");
-    String[] pathSegments = { "", "_partition", "_find" };
-    String[] pathParameters = { postPartitionFindOptions.db(), postPartitionFindOptions.partitionKey() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postPartitionFindOptions.db());
+    pathParamsMap.put("partition_key", postPartitionFindOptions.partitionKey());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_partition/{partition_key}/_find", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postPartitionFindAsStream");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
     final JsonObject contentJson = new JsonObject();
+    contentJson.add("selector", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postPartitionFindOptions.selector()));
     if (postPartitionFindOptions.bookmark() != null) {
       contentJson.addProperty("bookmark", postPartitionFindOptions.bookmark());
     }
@@ -2546,9 +2534,6 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
     }
     if (postPartitionFindOptions.limit() != null) {
       contentJson.addProperty("limit", postPartitionFindOptions.limit());
-    }
-    if (postPartitionFindOptions.selector() != null) {
-      contentJson.add("selector", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postPartitionFindOptions.selector()));
     }
     if (postPartitionFindOptions.skip() != null) {
       contentJson.addProperty("skip", postPartitionFindOptions.skip());
@@ -2582,15 +2567,16 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<ExplainResult> postExplain(PostExplainOptions postExplainOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postExplainOptions,
       "postExplainOptions cannot be null");
-    String[] pathSegments = { "", "_explain" };
-    String[] pathParameters = { postExplainOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postExplainOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_explain", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postExplain");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
     final JsonObject contentJson = new JsonObject();
+    contentJson.add("selector", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postExplainOptions.selector()));
     if (postExplainOptions.bookmark() != null) {
       contentJson.addProperty("bookmark", postExplainOptions.bookmark());
     }
@@ -2605,9 +2591,6 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
     }
     if (postExplainOptions.limit() != null) {
       contentJson.addProperty("limit", postExplainOptions.limit());
-    }
-    if (postExplainOptions.selector() != null) {
-      contentJson.add("selector", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postExplainOptions.selector()));
     }
     if (postExplainOptions.skip() != null) {
       contentJson.addProperty("skip", postExplainOptions.skip());
@@ -2645,15 +2628,16 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<FindResult> postFind(PostFindOptions postFindOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postFindOptions,
       "postFindOptions cannot be null");
-    String[] pathSegments = { "", "_find" };
-    String[] pathParameters = { postFindOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postFindOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_find", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postFind");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
     final JsonObject contentJson = new JsonObject();
+    contentJson.add("selector", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postFindOptions.selector()));
     if (postFindOptions.bookmark() != null) {
       contentJson.addProperty("bookmark", postFindOptions.bookmark());
     }
@@ -2668,9 +2652,6 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
     }
     if (postFindOptions.limit() != null) {
       contentJson.addProperty("limit", postFindOptions.limit());
-    }
-    if (postFindOptions.selector() != null) {
-      contentJson.add("selector", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postFindOptions.selector()));
     }
     if (postFindOptions.skip() != null) {
       contentJson.addProperty("skip", postFindOptions.skip());
@@ -2708,15 +2689,16 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<InputStream> postFindAsStream(PostFindOptions postFindOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postFindOptions,
       "postFindOptions cannot be null");
-    String[] pathSegments = { "", "_find" };
-    String[] pathParameters = { postFindOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postFindOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_find", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postFindAsStream");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
     final JsonObject contentJson = new JsonObject();
+    contentJson.add("selector", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postFindOptions.selector()));
     if (postFindOptions.bookmark() != null) {
       contentJson.addProperty("bookmark", postFindOptions.bookmark());
     }
@@ -2731,9 +2713,6 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
     }
     if (postFindOptions.limit() != null) {
       contentJson.addProperty("limit", postFindOptions.limit());
-    }
-    if (postFindOptions.selector() != null) {
-      contentJson.add("selector", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postFindOptions.selector()));
     }
     if (postFindOptions.skip() != null) {
       contentJson.addProperty("skip", postFindOptions.skip());
@@ -2771,9 +2750,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<IndexesInformation> getIndexesInformation(GetIndexesInformationOptions getIndexesInformationOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getIndexesInformationOptions,
       "getIndexesInformationOptions cannot be null");
-    String[] pathSegments = { "", "_index" };
-    String[] pathParameters = { getIndexesInformationOptions.db() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", getIndexesInformationOptions.db());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_index", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getIndexesInformation");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -2795,23 +2774,21 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<IndexResult> postIndex(PostIndexOptions postIndexOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postIndexOptions,
       "postIndexOptions cannot be null");
-    String[] pathSegments = { "", "_index" };
-    String[] pathParameters = { postIndexOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postIndexOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_index", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postIndex");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
     final JsonObject contentJson = new JsonObject();
+    contentJson.add("index", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postIndexOptions.index()));
     if (postIndexOptions.ddoc() != null) {
       contentJson.addProperty("ddoc", postIndexOptions.ddoc());
     }
     if (postIndexOptions.def() != null) {
       contentJson.add("def", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postIndexOptions.def()));
-    }
-    if (postIndexOptions.index() != null) {
-      contentJson.add("index", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postIndexOptions.index()));
     }
     if (postIndexOptions.name() != null) {
       contentJson.addProperty("name", postIndexOptions.name());
@@ -2840,9 +2817,12 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<Ok> deleteIndex(DeleteIndexOptions deleteIndexOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(deleteIndexOptions,
       "deleteIndexOptions cannot be null");
-    String[] pathSegments = { "", "_index/_design", "", "" };
-    String[] pathParameters = { deleteIndexOptions.db(), deleteIndexOptions.ddoc(), deleteIndexOptions.type(), deleteIndexOptions.index() };
-    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", deleteIndexOptions.db());
+    pathParamsMap.put("ddoc", deleteIndexOptions.ddoc());
+    pathParamsMap.put("type", deleteIndexOptions.type());
+    pathParamsMap.put("index", deleteIndexOptions.index());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_index/_design/{ddoc}/{type}/{index}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "deleteIndex");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -2863,43 +2843,21 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
    * @return a {@link ServiceCall} with a result of type {@link SearchAnalyzeResult}
    */
   public ServiceCall<SearchAnalyzeResult> postSearchAnalyze(PostSearchAnalyzeOptions postSearchAnalyzeOptions) {
-    boolean skipBody = false;
-    if (postSearchAnalyzeOptions == null) {
-      postSearchAnalyzeOptions = new PostSearchAnalyzeOptions.Builder().build();
-      skipBody = true;
-    }
-    String[] pathSegments = { "_search_analyze" };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
+    com.ibm.cloud.sdk.core.util.Validator.notNull(postSearchAnalyzeOptions,
+      "postSearchAnalyzeOptions cannot be null");
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_search_analyze"));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postSearchAnalyze");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    if (!skipBody) {
-      final JsonObject contentJson = new JsonObject();
-      if (postSearchAnalyzeOptions.analyzer() != null) {
-        contentJson.addProperty("analyzer", postSearchAnalyzeOptions.analyzer());
-      }
-      if (postSearchAnalyzeOptions.text() != null) {
-        contentJson.addProperty("text", postSearchAnalyzeOptions.text());
-      }
-      builder.bodyJson(contentJson);
-    }
+    final JsonObject contentJson = new JsonObject();
+    contentJson.addProperty("analyzer", postSearchAnalyzeOptions.analyzer());
+    contentJson.addProperty("text", postSearchAnalyzeOptions.text());
+    builder.bodyJson(contentJson);
     ResponseConverter<SearchAnalyzeResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<SearchAnalyzeResult>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
-  }
-
-  /**
-   * Query tokenization of sample text.
-   *
-   * Returns the results of analyzer tokenization of the provided sample text. This endpoint can be used for testing
-   * analyzer tokenization.
-   *
-   * @return a {@link ServiceCall} with a result of type {@link SearchAnalyzeResult}
-   */
-  public ServiceCall<SearchAnalyzeResult> postSearchAnalyze() {
-    return postSearchAnalyze(null);
   }
 
   /**
@@ -2917,15 +2875,18 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<SearchResult> postSearch(PostSearchOptions postSearchOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postSearchOptions,
       "postSearchOptions cannot be null");
-    String[] pathSegments = { "", "_design", "_search" };
-    String[] pathParameters = { postSearchOptions.db(), postSearchOptions.ddoc(), postSearchOptions.index() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postSearchOptions.db());
+    pathParamsMap.put("ddoc", postSearchOptions.ddoc());
+    pathParamsMap.put("index", postSearchOptions.index());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_design/{ddoc}/_search/{index}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postSearch");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
     final JsonObject contentJson = new JsonObject();
+    contentJson.addProperty("query", postSearchOptions.query());
     if (postSearchOptions.bookmark() != null) {
       contentJson.addProperty("bookmark", postSearchOptions.bookmark());
     }
@@ -2952,9 +2913,6 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
     }
     if (postSearchOptions.limit() != null) {
       contentJson.addProperty("limit", postSearchOptions.limit());
-    }
-    if (postSearchOptions.query() != null) {
-      contentJson.addProperty("query", postSearchOptions.query());
     }
     if (postSearchOptions.sort() != null) {
       contentJson.add("sort", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postSearchOptions.sort()));
@@ -3001,15 +2959,18 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<InputStream> postSearchAsStream(PostSearchOptions postSearchOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postSearchOptions,
       "postSearchOptions cannot be null");
-    String[] pathSegments = { "", "_design", "_search" };
-    String[] pathParameters = { postSearchOptions.db(), postSearchOptions.ddoc(), postSearchOptions.index() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postSearchOptions.db());
+    pathParamsMap.put("ddoc", postSearchOptions.ddoc());
+    pathParamsMap.put("index", postSearchOptions.index());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_design/{ddoc}/_search/{index}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postSearchAsStream");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
     final JsonObject contentJson = new JsonObject();
+    contentJson.addProperty("query", postSearchOptions.query());
     if (postSearchOptions.bookmark() != null) {
       contentJson.addProperty("bookmark", postSearchOptions.bookmark());
     }
@@ -3036,9 +2997,6 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
     }
     if (postSearchOptions.limit() != null) {
       contentJson.addProperty("limit", postSearchOptions.limit());
-    }
-    if (postSearchOptions.query() != null) {
-      contentJson.addProperty("query", postSearchOptions.query());
     }
     if (postSearchOptions.sort() != null) {
       contentJson.add("sort", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postSearchOptions.sort()));
@@ -3080,9 +3038,11 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<SearchInfoResult> getSearchInfo(GetSearchInfoOptions getSearchInfoOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getSearchInfoOptions,
       "getSearchInfoOptions cannot be null");
-    String[] pathSegments = { "", "_design", "_search_info" };
-    String[] pathParameters = { getSearchInfoOptions.db(), getSearchInfoOptions.ddoc(), getSearchInfoOptions.index() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", getSearchInfoOptions.db());
+    pathParamsMap.put("ddoc", getSearchInfoOptions.ddoc());
+    pathParamsMap.put("index", getSearchInfoOptions.index());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_design/{ddoc}/_search_info/{index}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getSearchInfo");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -3104,25 +3064,27 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<GeoResult> getGeo(GetGeoOptions getGeoOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getGeoOptions,
       "getGeoOptions cannot be null");
-    String[] pathSegments = { "", "_design", "_geo" };
-    String[] pathParameters = { getGeoOptions.db(), getGeoOptions.ddoc(), getGeoOptions.index() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", getGeoOptions.db());
+    pathParamsMap.put("ddoc", getGeoOptions.ddoc());
+    pathParamsMap.put("index", getGeoOptions.index());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_design/{ddoc}/_geo/{index}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getGeo");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
     if (getGeoOptions.bbox() != null) {
-      builder.query("bbox", getGeoOptions.bbox());
+      builder.query("bbox", String.valueOf(getGeoOptions.bbox()));
     }
     if (getGeoOptions.bookmark() != null) {
-      builder.query("bookmark", getGeoOptions.bookmark());
+      builder.query("bookmark", String.valueOf(getGeoOptions.bookmark()));
     }
     if (getGeoOptions.format() != null) {
-      builder.query("format", getGeoOptions.format());
+      builder.query("format", String.valueOf(getGeoOptions.format()));
     }
     if (getGeoOptions.g() != null) {
-      builder.query("g", getGeoOptions.g());
+      builder.query("g", String.valueOf(getGeoOptions.g()));
     }
     if (getGeoOptions.includeDocs() != null) {
       builder.query("include_docs", String.valueOf(getGeoOptions.includeDocs()));
@@ -3149,13 +3111,13 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("rangey", String.valueOf(getGeoOptions.rangey()));
     }
     if (getGeoOptions.relation() != null) {
-      builder.query("relation", getGeoOptions.relation());
+      builder.query("relation", String.valueOf(getGeoOptions.relation()));
     }
     if (getGeoOptions.skip() != null) {
       builder.query("skip", String.valueOf(getGeoOptions.skip()));
     }
     if (getGeoOptions.stale() != null) {
-      builder.query("stale", getGeoOptions.stale());
+      builder.query("stale", String.valueOf(getGeoOptions.stale()));
     }
     ResponseConverter<GeoResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<GeoResult>() { }.getType());
@@ -3173,25 +3135,27 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<InputStream> getGeoAsStream(GetGeoOptions getGeoOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getGeoOptions,
       "getGeoOptions cannot be null");
-    String[] pathSegments = { "", "_design", "_geo" };
-    String[] pathParameters = { getGeoOptions.db(), getGeoOptions.ddoc(), getGeoOptions.index() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", getGeoOptions.db());
+    pathParamsMap.put("ddoc", getGeoOptions.ddoc());
+    pathParamsMap.put("index", getGeoOptions.index());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_design/{ddoc}/_geo/{index}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getGeoAsStream");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
     if (getGeoOptions.bbox() != null) {
-      builder.query("bbox", getGeoOptions.bbox());
+      builder.query("bbox", String.valueOf(getGeoOptions.bbox()));
     }
     if (getGeoOptions.bookmark() != null) {
-      builder.query("bookmark", getGeoOptions.bookmark());
+      builder.query("bookmark", String.valueOf(getGeoOptions.bookmark()));
     }
     if (getGeoOptions.format() != null) {
-      builder.query("format", getGeoOptions.format());
+      builder.query("format", String.valueOf(getGeoOptions.format()));
     }
     if (getGeoOptions.g() != null) {
-      builder.query("g", getGeoOptions.g());
+      builder.query("g", String.valueOf(getGeoOptions.g()));
     }
     if (getGeoOptions.includeDocs() != null) {
       builder.query("include_docs", String.valueOf(getGeoOptions.includeDocs()));
@@ -3218,13 +3182,13 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("rangey", String.valueOf(getGeoOptions.rangey()));
     }
     if (getGeoOptions.relation() != null) {
-      builder.query("relation", getGeoOptions.relation());
+      builder.query("relation", String.valueOf(getGeoOptions.relation()));
     }
     if (getGeoOptions.skip() != null) {
       builder.query("skip", String.valueOf(getGeoOptions.skip()));
     }
     if (getGeoOptions.stale() != null) {
-      builder.query("stale", getGeoOptions.stale());
+      builder.query("stale", String.valueOf(getGeoOptions.stale()));
     }
     ResponseConverter<InputStream> responseConverter = ResponseConverterUtils.getInputStream();
     return createServiceCall(builder.build(), responseConverter);
@@ -3241,9 +3205,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<Ok> postGeoCleanup(PostGeoCleanupOptions postGeoCleanupOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postGeoCleanupOptions,
       "postGeoCleanupOptions cannot be null");
-    String[] pathSegments = { "", "_geo_cleanup" };
-    String[] pathParameters = { postGeoCleanupOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postGeoCleanupOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_geo_cleanup", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postGeoCleanup");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -3263,9 +3227,11 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<GeoIndexInformation> getGeoIndexInformation(GetGeoIndexInformationOptions getGeoIndexInformationOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getGeoIndexInformationOptions,
       "getGeoIndexInformationOptions cannot be null");
-    String[] pathSegments = { "", "_design", "_geo_info" };
-    String[] pathParameters = { getGeoIndexInformationOptions.db(), getGeoIndexInformationOptions.ddoc(), getGeoIndexInformationOptions.index() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", getGeoIndexInformationOptions.db());
+    pathParamsMap.put("ddoc", getGeoIndexInformationOptions.ddoc());
+    pathParamsMap.put("index", getGeoIndexInformationOptions.index());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_design/{ddoc}/_geo_info/{index}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getGeoIndexInformation");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -3291,15 +3257,14 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
     if (getDbUpdatesOptions == null) {
       getDbUpdatesOptions = new GetDbUpdatesOptions.Builder().build();
     }
-    String[] pathSegments = { "_db_updates" };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_db_updates"));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getDbUpdates");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
     if (getDbUpdatesOptions.feed() != null) {
-      builder.query("feed", getDbUpdatesOptions.feed());
+      builder.query("feed", String.valueOf(getDbUpdatesOptions.feed()));
     }
     if (getDbUpdatesOptions.heartbeat() != null) {
       builder.query("heartbeat", String.valueOf(getDbUpdatesOptions.heartbeat()));
@@ -3308,7 +3273,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("timeout", String.valueOf(getDbUpdatesOptions.timeout()));
     }
     if (getDbUpdatesOptions.since() != null) {
-      builder.query("since", getDbUpdatesOptions.since());
+      builder.query("since", String.valueOf(getDbUpdatesOptions.since()));
     }
     ResponseConverter<DbUpdates> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<DbUpdates>() { }.getType());
@@ -3340,9 +3305,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<Void> headReplicationDocument(HeadReplicationDocumentOptions headReplicationDocumentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(headReplicationDocumentOptions,
       "headReplicationDocumentOptions cannot be null");
-    String[] pathSegments = { "_replicator" };
-    String[] pathParameters = { headReplicationDocumentOptions.docId() };
-    RequestBuilder builder = RequestBuilder.head(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("doc_id", headReplicationDocumentOptions.docId());
+    RequestBuilder builder = RequestBuilder.head(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_replicator/{doc_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "headReplicationDocument");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -3366,9 +3331,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<Void> headSchedulerJob(HeadSchedulerJobOptions headSchedulerJobOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(headSchedulerJobOptions,
       "headSchedulerJobOptions cannot be null");
-    String[] pathSegments = { "_scheduler/jobs" };
-    String[] pathParameters = { headSchedulerJobOptions.jobId() };
-    RequestBuilder builder = RequestBuilder.head(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("job_id", headSchedulerJobOptions.jobId());
+    RequestBuilder builder = RequestBuilder.head(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_scheduler/jobs/{job_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "headSchedulerJob");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -3386,33 +3351,18 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
    * @return a {@link ServiceCall} with a result of type {@link ReplicationResult}
    */
   public ServiceCall<ReplicationResult> postReplicate(PostReplicateOptions postReplicateOptions) {
-    if (postReplicateOptions == null) {
-      postReplicateOptions = new PostReplicateOptions.Builder().build();
-    }
-    String[] pathSegments = { "_replicate" };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
+    com.ibm.cloud.sdk.core.util.Validator.notNull(postReplicateOptions,
+      "postReplicateOptions cannot be null");
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_replicate"));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postReplicate");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    if (postReplicateOptions.replicationDocument() != null) {
-      builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(postReplicateOptions.replicationDocument()), "application/json");
-    }
+    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(postReplicateOptions.replicationDocument()), "application/json");
     ResponseConverter<ReplicationResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ReplicationResult>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
-  }
-
-  /**
-   * Create or modify a replication operation.
-   *
-   * Requests, configures, or stops a replicate operation.
-   *
-   * @return a {@link ServiceCall} with a result of type {@link ReplicationResult}
-   */
-  public ServiceCall<ReplicationResult> postReplicate() {
-    return postReplicate(null);
   }
 
   /**
@@ -3426,9 +3376,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<DocumentResult> deleteReplicationDocument(DeleteReplicationDocumentOptions deleteReplicationDocumentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(deleteReplicationDocumentOptions,
       "deleteReplicationDocumentOptions cannot be null");
-    String[] pathSegments = { "_replicator" };
-    String[] pathParameters = { deleteReplicationDocumentOptions.docId() };
-    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("doc_id", deleteReplicationDocumentOptions.docId());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_replicator/{doc_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "deleteReplicationDocument");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -3438,10 +3388,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.header("If-Match", deleteReplicationDocumentOptions.ifMatch());
     }
     if (deleteReplicationDocumentOptions.batch() != null) {
-      builder.query("batch", deleteReplicationDocumentOptions.batch());
+      builder.query("batch", String.valueOf(deleteReplicationDocumentOptions.batch()));
     }
     if (deleteReplicationDocumentOptions.rev() != null) {
-      builder.query("rev", deleteReplicationDocumentOptions.rev());
+      builder.query("rev", String.valueOf(deleteReplicationDocumentOptions.rev()));
     }
     ResponseConverter<DocumentResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<DocumentResult>() { }.getType());
@@ -3460,9 +3410,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<ReplicationDocument> getReplicationDocument(GetReplicationDocumentOptions getReplicationDocumentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getReplicationDocumentOptions,
       "getReplicationDocumentOptions cannot be null");
-    String[] pathSegments = { "_replicator" };
-    String[] pathParameters = { getReplicationDocumentOptions.docId() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("doc_id", getReplicationDocumentOptions.docId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_replicator/{doc_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getReplicationDocument");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -3499,7 +3449,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.query("open_revs", RequestUtils.join(getReplicationDocumentOptions.openRevs(), ","));
     }
     if (getReplicationDocumentOptions.rev() != null) {
-      builder.query("rev", getReplicationDocumentOptions.rev());
+      builder.query("rev", String.valueOf(getReplicationDocumentOptions.rev()));
     }
     if (getReplicationDocumentOptions.revs() != null) {
       builder.query("revs", String.valueOf(getReplicationDocumentOptions.revs()));
@@ -3524,9 +3474,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<DocumentResult> putReplicationDocument(PutReplicationDocumentOptions putReplicationDocumentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(putReplicationDocumentOptions,
       "putReplicationDocumentOptions cannot be null");
-    String[] pathSegments = { "_replicator" };
-    String[] pathParameters = { putReplicationDocumentOptions.docId() };
-    RequestBuilder builder = RequestBuilder.put(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("doc_id", putReplicationDocumentOptions.docId());
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_replicator/{doc_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "putReplicationDocument");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -3536,17 +3486,15 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.header("If-Match", putReplicationDocumentOptions.ifMatch());
     }
     if (putReplicationDocumentOptions.batch() != null) {
-      builder.query("batch", putReplicationDocumentOptions.batch());
+      builder.query("batch", String.valueOf(putReplicationDocumentOptions.batch()));
     }
     if (putReplicationDocumentOptions.newEdits() != null) {
       builder.query("new_edits", String.valueOf(putReplicationDocumentOptions.newEdits()));
     }
     if (putReplicationDocumentOptions.rev() != null) {
-      builder.query("rev", putReplicationDocumentOptions.rev());
+      builder.query("rev", String.valueOf(putReplicationDocumentOptions.rev()));
     }
-    if (putReplicationDocumentOptions.replicationDocument() != null) {
-      builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(putReplicationDocumentOptions.replicationDocument()), "application/json");
-    }
+    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(putReplicationDocumentOptions.replicationDocument()), "application/json");
     ResponseConverter<DocumentResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<DocumentResult>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
@@ -3566,8 +3514,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
     if (getSchedulerDocsOptions == null) {
       getSchedulerDocsOptions = new GetSchedulerDocsOptions.Builder().build();
     }
-    String[] pathSegments = { "_scheduler/docs" };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_scheduler/docs"));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getSchedulerDocs");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -3612,9 +3559,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<SchedulerDocument> getSchedulerDocument(GetSchedulerDocumentOptions getSchedulerDocumentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getSchedulerDocumentOptions,
       "getSchedulerDocumentOptions cannot be null");
-    String[] pathSegments = { "_scheduler/docs/_replicator" };
-    String[] pathParameters = { getSchedulerDocumentOptions.docId() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("doc_id", getSchedulerDocumentOptions.docId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_scheduler/docs/_replicator/{doc_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getSchedulerDocument");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -3640,8 +3587,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
     if (getSchedulerJobsOptions == null) {
       getSchedulerJobsOptions = new GetSchedulerJobsOptions.Builder().build();
     }
-    String[] pathSegments = { "_scheduler/jobs" };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_scheduler/jobs"));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getSchedulerJobs");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -3683,9 +3629,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<SchedulerJob> getSchedulerJob(GetSchedulerJobOptions getSchedulerJobOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getSchedulerJobOptions,
       "getSchedulerJobOptions cannot be null");
-    String[] pathSegments = { "_scheduler/jobs" };
-    String[] pathParameters = { getSchedulerJobOptions.jobId() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("job_id", getSchedulerJobOptions.jobId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_scheduler/jobs/{job_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getSchedulerJob");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -3705,8 +3651,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
    * @return a {@link ServiceCall} with a result of type {@link SessionInformation}
    */
   public ServiceCall<SessionInformation> getSessionInformation(GetSessionInformationOptions getSessionInformationOptions) {
-    String[] pathSegments = { "_session" };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_session"));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getSessionInformation");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -3729,116 +3674,6 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   }
 
   /**
-   * Delete an IAM cookie session.
-   *
-   * Returns a response that instructs the HTTP client to clear the cookie. The session cookies are stateless and cannot
-   * be invalidated; hence, this operation is optional and does not invalidate the cookie on the server.
-   *
-   * @param deleteIamSessionOptions the {@link DeleteIamSessionOptions} containing the options for the call
-   * @return a {@link ServiceCall} with a result of type {@link Ok}
-   */
-  public ServiceCall<Ok> deleteIamSession(DeleteIamSessionOptions deleteIamSessionOptions) {
-    String[] pathSegments = { "_iam_session" };
-    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
-    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "deleteIamSession");
-    for (Entry<String, String> header : sdkHeaders.entrySet()) {
-      builder.header(header.getKey(), header.getValue());
-    }
-    builder.header("Accept", "application/json");
-    ResponseConverter<Ok> responseConverter =
-      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<Ok>() { }.getType());
-    return createServiceCall(builder.build(), responseConverter);
-  }
-
-  /**
-   * Delete an IAM cookie session.
-   *
-   * Returns a response that instructs the HTTP client to clear the cookie. The session cookies are stateless and cannot
-   * be invalidated; hence, this operation is optional and does not invalidate the cookie on the server.
-   *
-   * @return a {@link ServiceCall} with a result of type {@link Ok}
-   */
-  public ServiceCall<Ok> deleteIamSession() {
-    return deleteIamSession(null);
-  }
-
-  /**
-   * Retrieve current IAM cookie session information.
-   *
-   * Retrieves information about an IAM cookie session.
-   *
-   * @param getIamSessionInformationOptions the {@link GetIamSessionInformationOptions} containing the options for the call
-   * @return a {@link ServiceCall} with a result of type {@link IamSessionInformation}
-   */
-  public ServiceCall<IamSessionInformation> getIamSessionInformation(GetIamSessionInformationOptions getIamSessionInformationOptions) {
-    String[] pathSegments = { "_iam_session" };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
-    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getIamSessionInformation");
-    for (Entry<String, String> header : sdkHeaders.entrySet()) {
-      builder.header(header.getKey(), header.getValue());
-    }
-    builder.header("Accept", "application/json");
-    ResponseConverter<IamSessionInformation> responseConverter =
-      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<IamSessionInformation>() { }.getType());
-    return createServiceCall(builder.build(), responseConverter);
-  }
-
-  /**
-   * Retrieve current IAM cookie session information.
-   *
-   * Retrieves information about an IAM cookie session.
-   *
-   * @return a {@link ServiceCall} with a result of type {@link IamSessionInformation}
-   */
-  public ServiceCall<IamSessionInformation> getIamSessionInformation() {
-    return getIamSessionInformation(null);
-  }
-
-  /**
-   * Create a session cookie by using an IAM token.
-   *
-   * Log in by exchanging an IAM token for an IBM Cloudant cookie.
-   *
-   * @param postIamSessionOptions the {@link PostIamSessionOptions} containing the options for the call
-   * @return a {@link ServiceCall} with a result of type {@link Ok}
-   */
-  public ServiceCall<Ok> postIamSession(PostIamSessionOptions postIamSessionOptions) {
-    boolean skipBody = false;
-    if (postIamSessionOptions == null) {
-      postIamSessionOptions = new PostIamSessionOptions.Builder().build();
-      skipBody = true;
-    }
-    String[] pathSegments = { "_iam_session" };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
-    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postIamSession");
-    for (Entry<String, String> header : sdkHeaders.entrySet()) {
-      builder.header(header.getKey(), header.getValue());
-    }
-    builder.header("Accept", "application/json");
-    if (!skipBody) {
-      final JsonObject contentJson = new JsonObject();
-      if (postIamSessionOptions.accessToken() != null) {
-        contentJson.addProperty("access_token", postIamSessionOptions.accessToken());
-      }
-      builder.bodyJson(contentJson);
-    }
-    ResponseConverter<Ok> responseConverter =
-      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<Ok>() { }.getType());
-    return createServiceCall(builder.build(), responseConverter);
-  }
-
-  /**
-   * Create a session cookie by using an IAM token.
-   *
-   * Log in by exchanging an IAM token for an IBM Cloudant cookie.
-   *
-   * @return a {@link ServiceCall} with a result of type {@link Ok}
-   */
-  public ServiceCall<Ok> postIamSession() {
-    return postIamSession(null);
-  }
-
-  /**
    * Retrieve database permissions information.
    *
    * See who has permission to read, write, and manage the database. The credentials you use to log in to the dashboard
@@ -3851,9 +3686,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<Security> getSecurity(GetSecurityOptions getSecurityOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getSecurityOptions,
       "getSecurityOptions cannot be null");
-    String[] pathSegments = { "", "_security" };
-    String[] pathParameters = { getSecurityOptions.db() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", getSecurityOptions.db());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_security", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getSecurity");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -3877,9 +3712,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<Ok> putSecurity(PutSecurityOptions putSecurityOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(putSecurityOptions,
       "putSecurityOptions cannot be null");
-    String[] pathSegments = { "", "_security" };
-    String[] pathParameters = { putSecurityOptions.db() };
-    RequestBuilder builder = RequestBuilder.put(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", putSecurityOptions.db());
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_security", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "putSecurity");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -3915,8 +3750,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
    * @return a {@link ServiceCall} with a result of type {@link ApiKeysResult}
    */
   public ServiceCall<ApiKeysResult> postApiKeys(PostApiKeysOptions postApiKeysOptions) {
-    String[] pathSegments = { "_api/v2/api_keys" };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_api/v2/api_keys"));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postApiKeys");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -3952,23 +3786,21 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<Ok> putCloudantSecurityConfiguration(PutCloudantSecurityConfigurationOptions putCloudantSecurityConfigurationOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(putCloudantSecurityConfigurationOptions,
       "putCloudantSecurityConfigurationOptions cannot be null");
-    String[] pathSegments = { "_api/v2/db", "_security" };
-    String[] pathParameters = { putCloudantSecurityConfigurationOptions.db() };
-    RequestBuilder builder = RequestBuilder.put(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", putCloudantSecurityConfigurationOptions.db());
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_api/v2/db/{db}/_security", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "putCloudantSecurityConfiguration");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
     final JsonObject contentJson = new JsonObject();
+    contentJson.add("cloudant", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(putCloudantSecurityConfigurationOptions.cloudant()));
     if (putCloudantSecurityConfigurationOptions.admins() != null) {
       contentJson.add("admins", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(putCloudantSecurityConfigurationOptions.admins()));
     }
     if (putCloudantSecurityConfigurationOptions.members() != null) {
       contentJson.add("members", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(putCloudantSecurityConfigurationOptions.members()));
-    }
-    if (putCloudantSecurityConfigurationOptions.cloudant() != null) {
-      contentJson.add("cloudant", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(putCloudantSecurityConfigurationOptions.cloudant()));
     }
     if (putCloudantSecurityConfigurationOptions.couchdbAuthOnly() != null) {
       contentJson.addProperty("couchdb_auth_only", putCloudantSecurityConfigurationOptions.couchdbAuthOnly());
@@ -3989,8 +3821,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
    * @return a {@link ServiceCall} with a result of type {@link CorsConfiguration}
    */
   public ServiceCall<CorsConfiguration> getCorsInformation(GetCorsInformationOptions getCorsInformationOptions) {
-    String[] pathSegments = { "_api/v2/user/config/cors" };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_api/v2/user/config/cors"));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getCorsInformation");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -4023,46 +3854,26 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
    * @return a {@link ServiceCall} with a result of type {@link Ok}
    */
   public ServiceCall<Ok> putCorsConfiguration(PutCorsConfigurationOptions putCorsConfigurationOptions) {
-    boolean skipBody = false;
-    if (putCorsConfigurationOptions == null) {
-      putCorsConfigurationOptions = new PutCorsConfigurationOptions.Builder().build();
-      skipBody = true;
-    }
-    String[] pathSegments = { "_api/v2/user/config/cors" };
-    RequestBuilder builder = RequestBuilder.put(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
+    com.ibm.cloud.sdk.core.util.Validator.notNull(putCorsConfigurationOptions,
+      "putCorsConfigurationOptions cannot be null");
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_api/v2/user/config/cors"));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "putCorsConfiguration");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    if (!skipBody) {
-      final JsonObject contentJson = new JsonObject();
-      if (putCorsConfigurationOptions.allowCredentials() != null) {
-        contentJson.addProperty("allow_credentials", putCorsConfigurationOptions.allowCredentials());
-      }
-      if (putCorsConfigurationOptions.enableCors() != null) {
-        contentJson.addProperty("enable_cors", putCorsConfigurationOptions.enableCors());
-      }
-      if (putCorsConfigurationOptions.origins() != null) {
-        contentJson.add("origins", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(putCorsConfigurationOptions.origins()));
-      }
-      builder.bodyJson(contentJson);
+    final JsonObject contentJson = new JsonObject();
+    contentJson.add("origins", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(putCorsConfigurationOptions.origins()));
+    if (putCorsConfigurationOptions.allowCredentials() != null) {
+      contentJson.addProperty("allow_credentials", putCorsConfigurationOptions.allowCredentials());
     }
+    if (putCorsConfigurationOptions.enableCors() != null) {
+      contentJson.addProperty("enable_cors", putCorsConfigurationOptions.enableCors());
+    }
+    builder.bodyJson(contentJson);
     ResponseConverter<Ok> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<Ok>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
-  }
-
-  /**
-   * Modify CORS configuration.
-   *
-   * Sets the CORS configuration. The configuration applies to all databases and all account level endpoints in your
-   * account.
-   *
-   * @return a {@link ServiceCall} with a result of type {@link Ok}
-   */
-  public ServiceCall<Ok> putCorsConfiguration() {
-    return putCorsConfiguration(null);
   }
 
   /**
@@ -4078,9 +3889,11 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<Void> headAttachment(HeadAttachmentOptions headAttachmentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(headAttachmentOptions,
       "headAttachmentOptions cannot be null");
-    String[] pathSegments = { "", "", "" };
-    String[] pathParameters = { headAttachmentOptions.db(), headAttachmentOptions.docId(), headAttachmentOptions.attachmentName() };
-    RequestBuilder builder = RequestBuilder.head(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", headAttachmentOptions.db());
+    pathParamsMap.put("doc_id", headAttachmentOptions.docId());
+    pathParamsMap.put("attachment_name", headAttachmentOptions.attachmentName());
+    RequestBuilder builder = RequestBuilder.head(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/{doc_id}/{attachment_name}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "headAttachment");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -4092,7 +3905,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.header("If-None-Match", headAttachmentOptions.ifNoneMatch());
     }
     if (headAttachmentOptions.rev() != null) {
-      builder.query("rev", headAttachmentOptions.rev());
+      builder.query("rev", String.valueOf(headAttachmentOptions.rev()));
     }
     ResponseConverter<Void> responseConverter = ResponseConverterUtils.getVoid();
     return createServiceCall(builder.build(), responseConverter);
@@ -4110,9 +3923,11 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<DocumentResult> deleteAttachment(DeleteAttachmentOptions deleteAttachmentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(deleteAttachmentOptions,
       "deleteAttachmentOptions cannot be null");
-    String[] pathSegments = { "", "", "" };
-    String[] pathParameters = { deleteAttachmentOptions.db(), deleteAttachmentOptions.docId(), deleteAttachmentOptions.attachmentName() };
-    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", deleteAttachmentOptions.db());
+    pathParamsMap.put("doc_id", deleteAttachmentOptions.docId());
+    pathParamsMap.put("attachment_name", deleteAttachmentOptions.attachmentName());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/{doc_id}/{attachment_name}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "deleteAttachment");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -4122,10 +3937,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.header("If-Match", deleteAttachmentOptions.ifMatch());
     }
     if (deleteAttachmentOptions.rev() != null) {
-      builder.query("rev", deleteAttachmentOptions.rev());
+      builder.query("rev", String.valueOf(deleteAttachmentOptions.rev()));
     }
     if (deleteAttachmentOptions.batch() != null) {
-      builder.query("batch", deleteAttachmentOptions.batch());
+      builder.query("batch", String.valueOf(deleteAttachmentOptions.batch()));
     }
     ResponseConverter<DocumentResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<DocumentResult>() { }.getType());
@@ -4145,9 +3960,11 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<InputStream> getAttachment(GetAttachmentOptions getAttachmentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getAttachmentOptions,
       "getAttachmentOptions cannot be null");
-    String[] pathSegments = { "", "", "" };
-    String[] pathParameters = { getAttachmentOptions.db(), getAttachmentOptions.docId(), getAttachmentOptions.attachmentName() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", getAttachmentOptions.db());
+    pathParamsMap.put("doc_id", getAttachmentOptions.docId());
+    pathParamsMap.put("attachment_name", getAttachmentOptions.attachmentName());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/{doc_id}/{attachment_name}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getAttachment");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -4165,7 +3982,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.header("Range", getAttachmentOptions.range());
     }
     if (getAttachmentOptions.rev() != null) {
-      builder.query("rev", getAttachmentOptions.rev());
+      builder.query("rev", String.valueOf(getAttachmentOptions.rev()));
     }
     ResponseConverter<InputStream> responseConverter = ResponseConverterUtils.getInputStream();
     return createServiceCall(builder.build(), responseConverter);
@@ -4188,9 +4005,11 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<DocumentResult> putAttachment(PutAttachmentOptions putAttachmentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(putAttachmentOptions,
       "putAttachmentOptions cannot be null");
-    String[] pathSegments = { "", "", "" };
-    String[] pathParameters = { putAttachmentOptions.db(), putAttachmentOptions.docId(), putAttachmentOptions.attachmentName() };
-    RequestBuilder builder = RequestBuilder.put(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", putAttachmentOptions.db());
+    pathParamsMap.put("doc_id", putAttachmentOptions.docId());
+    pathParamsMap.put("attachment_name", putAttachmentOptions.attachmentName());
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/{doc_id}/{attachment_name}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "putAttachment");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -4201,7 +4020,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.header("If-Match", putAttachmentOptions.ifMatch());
     }
     if (putAttachmentOptions.rev() != null) {
-      builder.query("rev", putAttachmentOptions.rev());
+      builder.query("rev", String.valueOf(putAttachmentOptions.rev()));
     }
     builder.bodyContent(putAttachmentOptions.contentType(), null,
       null, putAttachmentOptions.attachment());
@@ -4222,16 +4041,17 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<DocumentResult> deleteLocalDocument(DeleteLocalDocumentOptions deleteLocalDocumentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(deleteLocalDocumentOptions,
       "deleteLocalDocumentOptions cannot be null");
-    String[] pathSegments = { "", "_local" };
-    String[] pathParameters = { deleteLocalDocumentOptions.db(), deleteLocalDocumentOptions.docId() };
-    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", deleteLocalDocumentOptions.db());
+    pathParamsMap.put("doc_id", deleteLocalDocumentOptions.docId());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_local/{doc_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "deleteLocalDocument");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
     if (deleteLocalDocumentOptions.batch() != null) {
-      builder.query("batch", deleteLocalDocumentOptions.batch());
+      builder.query("batch", String.valueOf(deleteLocalDocumentOptions.batch()));
     }
     ResponseConverter<DocumentResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<DocumentResult>() { }.getType());
@@ -4250,9 +4070,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<Document> getLocalDocument(GetLocalDocumentOptions getLocalDocumentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getLocalDocumentOptions,
       "getLocalDocumentOptions cannot be null");
-    String[] pathSegments = { "", "_local" };
-    String[] pathParameters = { getLocalDocumentOptions.db(), getLocalDocumentOptions.docId() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", getLocalDocumentOptions.db());
+    pathParamsMap.put("doc_id", getLocalDocumentOptions.docId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_local/{doc_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getLocalDocument");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -4292,9 +4113,14 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<DocumentResult> putLocalDocument(PutLocalDocumentOptions putLocalDocumentOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(putLocalDocumentOptions,
       "putLocalDocumentOptions cannot be null");
-    String[] pathSegments = { "", "_local" };
-    String[] pathParameters = { putLocalDocumentOptions.db(), putLocalDocumentOptions.docId() };
-    RequestBuilder builder = RequestBuilder.put(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+
+    if (putLocalDocumentOptions.document() != null && putLocalDocumentOptions.contentType() == null) {
+      putLocalDocumentOptions = putLocalDocumentOptions.newBuilder().contentType("application/json").build();
+    }
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", putLocalDocumentOptions.db());
+    pathParamsMap.put("doc_id", putLocalDocumentOptions.docId());
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_local/{doc_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "putLocalDocument");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -4304,7 +4130,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.header("Content-Type", putLocalDocumentOptions.contentType());
     }
     if (putLocalDocumentOptions.batch() != null) {
-      builder.query("batch", putLocalDocumentOptions.batch());
+      builder.query("batch", String.valueOf(putLocalDocumentOptions.batch()));
     }
     builder.bodyContent(putLocalDocumentOptions.contentType(), putLocalDocumentOptions.document(),
       null, putLocalDocumentOptions.body());
@@ -4327,9 +4153,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<AllDocsResult> postLocalDocs(PostLocalDocsOptions postLocalDocsOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postLocalDocsOptions,
       "postLocalDocsOptions cannot be null");
-    String[] pathSegments = { "", "_local_docs" };
-    String[] pathParameters = { postLocalDocsOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postLocalDocsOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_local_docs", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postLocalDocs");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -4395,9 +4221,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<AllDocsQueriesResult> postLocalDocsQueries(PostLocalDocsQueriesOptions postLocalDocsQueriesOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postLocalDocsQueriesOptions,
       "postLocalDocsQueriesOptions cannot be null");
-    String[] pathSegments = { "", "_local_docs/queries" };
-    String[] pathParameters = { postLocalDocsQueriesOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postLocalDocsQueriesOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_local_docs/queries", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postLocalDocsQueries");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -4406,39 +4232,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
       builder.header("Accept", postLocalDocsQueriesOptions.accept());
     }
     final JsonObject contentJson = new JsonObject();
-    if (postLocalDocsQueriesOptions.queries() != null) {
-      contentJson.add("queries", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postLocalDocsQueriesOptions.queries()));
-    }
+    contentJson.add("queries", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(postLocalDocsQueriesOptions.queries()));
     builder.bodyJson(contentJson);
     ResponseConverter<AllDocsQueriesResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<AllDocsQueriesResult>() { }.getType());
-    return createServiceCall(builder.build(), responseConverter);
-  }
-
-  /**
-   * Commit any recent changes to the specified database to disk.
-   *
-   * Commits any recent changes to the specified database to disk. You must make a request to this endpoint if you want
-   * to ensure that recent changes have been flushed. This function is likely not required, assuming you have the
-   * recommended configuration setting, `delayed_commits=false`. This setting requires that changes are written to disk
-   * before a 200 or similar result is returned.
-   *
-   * @param postEnsureFullCommitOptions the {@link PostEnsureFullCommitOptions} containing the options for the call
-   * @return a {@link ServiceCall} with a result of type {@link EnsureFullCommitInformation}
-   */
-  public ServiceCall<EnsureFullCommitInformation> postEnsureFullCommit(PostEnsureFullCommitOptions postEnsureFullCommitOptions) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(postEnsureFullCommitOptions,
-      "postEnsureFullCommitOptions cannot be null");
-    String[] pathSegments = { "", "_ensure_full_commit" };
-    String[] pathParameters = { postEnsureFullCommitOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
-    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postEnsureFullCommit");
-    for (Entry<String, String> header : sdkHeaders.entrySet()) {
-      builder.header(header.getKey(), header.getValue());
-    }
-    builder.header("Accept", "application/json");
-    ResponseConverter<EnsureFullCommitInformation> responseConverter =
-      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<EnsureFullCommitInformation>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
   }
 
@@ -4453,17 +4250,15 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<MissingRevsResult> postMissingRevs(PostMissingRevsOptions postMissingRevsOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postMissingRevsOptions,
       "postMissingRevsOptions cannot be null");
-    String[] pathSegments = { "", "_missing_revs" };
-    String[] pathParameters = { postMissingRevsOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postMissingRevsOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_missing_revs", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postMissingRevs");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    if (postMissingRevsOptions.documentRevisions() != null) {
-      builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(postMissingRevsOptions.documentRevisions()), "application/json");
-    }
+    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(postMissingRevsOptions.documentRevisions()), "application/json");
     ResponseConverter<MissingRevsResult> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<MissingRevsResult>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
@@ -4482,17 +4277,15 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<Map<String, RevsDiff>> postRevsDiff(PostRevsDiffOptions postRevsDiffOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(postRevsDiffOptions,
       "postRevsDiffOptions cannot be null");
-    String[] pathSegments = { "", "_revs_diff" };
-    String[] pathParameters = { postRevsDiffOptions.db() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", postRevsDiffOptions.db());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_revs_diff", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "postRevsDiff");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    if (postRevsDiffOptions.documentRevisions() != null) {
-      builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(postRevsDiffOptions.documentRevisions()), "application/json");
-    }
+    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(postRevsDiffOptions.documentRevisions()), "application/json");
     ResponseConverter<Map<String, RevsDiff>> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<Map<String, RevsDiff>>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
@@ -4509,9 +4302,9 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<ShardsInformation> getShardsInformation(GetShardsInformationOptions getShardsInformationOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getShardsInformationOptions,
       "getShardsInformationOptions cannot be null");
-    String[] pathSegments = { "", "_shards" };
-    String[] pathParameters = { getShardsInformationOptions.db() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", getShardsInformationOptions.db());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_shards", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getShardsInformation");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -4534,9 +4327,10 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
   public ServiceCall<DocumentShardInfo> getDocumentShardsInfo(GetDocumentShardsInfoOptions getDocumentShardsInfoOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getDocumentShardsInfoOptions,
       "getDocumentShardsInfoOptions cannot be null");
-    String[] pathSegments = { "", "_shards" };
-    String[] pathParameters = { getDocumentShardsInfoOptions.db(), getDocumentShardsInfoOptions.docId() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("db", getDocumentShardsInfoOptions.db());
+    pathParamsMap.put("doc_id", getDocumentShardsInfoOptions.docId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/{db}/_shards/{doc_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getDocumentShardsInfo");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -4558,8 +4352,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
    * @return a {@link ServiceCall} with a result of type {@link List}
    */
   public ServiceCall<List<ActiveTask>> getActiveTasks(GetActiveTasksOptions getActiveTasksOptions) {
-    String[] pathSegments = { "_active_tasks" };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_active_tasks"));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getActiveTasks");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -4593,8 +4386,7 @@ public class Cloudant extends com.ibm.cloud.cloudant.internal.CloudantBaseServic
    * @return a {@link ServiceCall} with a result of type {@link UpInformation}
    */
   public ServiceCall<UpInformation> getUpInformation(GetUpInformationOptions getUpInformationOptions) {
-    String[] pathSegments = { "_up" };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/_up"));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("cloudant", "v1", "getUpInformation");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());

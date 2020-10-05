@@ -16,13 +16,10 @@ package com.ibm.cloud.cloudant.v1.model;
 import com.ibm.cloud.cloudant.v1.model.ServerInformation;
 import com.ibm.cloud.cloudant.v1.model.ServerVendor;
 import com.ibm.cloud.cloudant.v1.utils.TestUtilities;
-
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
-
 import java.util.HashMap;
 import java.util.List;
-
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -38,6 +35,8 @@ public class ServerInformationTest {
     ServerInformation serverInformationModel = new ServerInformation();
     assertNull(serverInformationModel.getCouchdb());
     assertNull(serverInformationModel.getFeatures());
+    assertNull(serverInformationModel.getGitSha());
+    assertNull(serverInformationModel.getUuid());
     assertNull(serverInformationModel.getVendor());
     assertNull(serverInformationModel.getVersion());
   }

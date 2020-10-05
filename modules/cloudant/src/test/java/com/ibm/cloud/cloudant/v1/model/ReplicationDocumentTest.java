@@ -23,15 +23,12 @@ import com.ibm.cloud.cloudant.v1.model.ReplicationDocument;
 import com.ibm.cloud.cloudant.v1.model.Revisions;
 import com.ibm.cloud.cloudant.v1.model.UserContext;
 import com.ibm.cloud.cloudant.v1.utils.TestUtilities;
-
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -213,4 +210,10 @@ public class ReplicationDocumentTest {
     assertEquals(replicationDocumentModelNew.getWorkerProcesses(), Long.valueOf("1"));
     assertEquals(replicationDocumentModelNew.get("foo"), "testString");
   }
+
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testReplicationDocumentError() throws Throwable {
+    new ReplicationDocument.Builder().build();
+  }
+
 }

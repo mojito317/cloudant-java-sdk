@@ -14,6 +14,7 @@ package com.ibm.cloud.cloudant.v1.model;
 
 import java.util.List;
 
+import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
@@ -23,6 +24,9 @@ public class ServerInformation extends GenericModel {
 
   protected String couchdb;
   protected List<String> features;
+  @SerializedName("git_sha")
+  protected String gitSha;
+  protected String uuid;
   protected ServerVendor vendor;
   protected String version;
 
@@ -46,6 +50,28 @@ public class ServerInformation extends GenericModel {
    */
   public List<String> getFeatures() {
     return features;
+  }
+
+  /**
+   * Gets the gitSha.
+   *
+   * Git SHA for the CouchDB server.
+   *
+   * @return the gitSha
+   */
+  public String getGitSha() {
+    return gitSha;
+  }
+
+  /**
+   * Gets the uuid.
+   *
+   * UUID of the CouchDB server.
+   *
+   * @return the uuid
+   */
+  public String getUuid() {
+    return uuid;
   }
 
   /**

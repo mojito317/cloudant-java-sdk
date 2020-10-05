@@ -15,13 +15,10 @@ package com.ibm.cloud.cloudant.v1.model;
 
 import com.ibm.cloud.cloudant.v1.model.ActiveTask;
 import com.ibm.cloud.cloudant.v1.utils.TestUtilities;
-
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
-
 import java.util.HashMap;
 import java.util.List;
-
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -37,6 +34,7 @@ public class ActiveTaskTest {
     ActiveTask activeTaskModel = new ActiveTask();
     assertNull(activeTaskModel.getChangesDone());
     assertNull(activeTaskModel.getDatabase());
+    assertNull(activeTaskModel.getNode());
     assertNull(activeTaskModel.getPid());
     assertNull(activeTaskModel.getProgress());
     assertNull(activeTaskModel.getStartedOn());

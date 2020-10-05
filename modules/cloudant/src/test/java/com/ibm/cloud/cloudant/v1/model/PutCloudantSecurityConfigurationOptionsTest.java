@@ -16,15 +16,12 @@ package com.ibm.cloud.cloudant.v1.model;
 import com.ibm.cloud.cloudant.v1.model.PutCloudantSecurityConfigurationOptions;
 import com.ibm.cloud.cloudant.v1.model.SecurityObject;
 import com.ibm.cloud.cloudant.v1.utils.TestUtilities;
-
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -46,15 +43,15 @@ public class PutCloudantSecurityConfigurationOptionsTest {
 
     PutCloudantSecurityConfigurationOptions putCloudantSecurityConfigurationOptionsModel = new PutCloudantSecurityConfigurationOptions.Builder()
       .db("testString")
+      .cloudant(new java.util.HashMap<String, List<String>>() { { put("foo", new java.util.ArrayList<String>(java.util.Arrays.asList("_reader"))); } })
       .admins(securityObjectModel)
       .members(securityObjectModel)
-      .cloudant(new java.util.HashMap<String, List<String>>() { { put("foo", new java.util.ArrayList<String>(java.util.Arrays.asList("_reader"))); } })
       .couchdbAuthOnly(true)
       .build();
     assertEquals(putCloudantSecurityConfigurationOptionsModel.db(), "testString");
+    assertEquals(putCloudantSecurityConfigurationOptionsModel.cloudant(), new java.util.HashMap<String, List<String>>() { { put("foo", new java.util.ArrayList<String>(java.util.Arrays.asList("_reader"))); } });
     assertEquals(putCloudantSecurityConfigurationOptionsModel.admins(), securityObjectModel);
     assertEquals(putCloudantSecurityConfigurationOptionsModel.members(), securityObjectModel);
-    assertEquals(putCloudantSecurityConfigurationOptionsModel.cloudant(), new java.util.HashMap<String, List<String>>() { { put("foo", new java.util.ArrayList<String>(java.util.Arrays.asList("_reader"))); } });
     assertEquals(putCloudantSecurityConfigurationOptionsModel.couchdbAuthOnly(), Boolean.valueOf(true));
   }
 

@@ -15,13 +15,10 @@ package com.ibm.cloud.cloudant.v1.model;
 
 import com.ibm.cloud.cloudant.v1.model.DocumentRevisionStatus;
 import com.ibm.cloud.cloudant.v1.utils.TestUtilities;
-
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
-
 import java.util.HashMap;
 import java.util.List;
-
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -48,4 +45,10 @@ public class DocumentRevisionStatusTest {
     assertEquals(documentRevisionStatusModelNew.rev(), "testString");
     assertEquals(documentRevisionStatusModelNew.status(), "available");
   }
+
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testDocumentRevisionStatusError() throws Throwable {
+    new DocumentRevisionStatus.Builder().build();
+  }
+
 }

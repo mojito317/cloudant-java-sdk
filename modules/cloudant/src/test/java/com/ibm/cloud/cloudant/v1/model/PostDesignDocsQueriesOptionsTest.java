@@ -16,15 +16,12 @@ package com.ibm.cloud.cloudant.v1.model;
 import com.ibm.cloud.cloudant.v1.model.AllDocsQuery;
 import com.ibm.cloud.cloudant.v1.model.PostDesignDocsQueriesOptions;
 import com.ibm.cloud.cloudant.v1.utils.TestUtilities;
-
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -68,12 +65,12 @@ public class PostDesignDocsQueriesOptionsTest {
 
     PostDesignDocsQueriesOptions postDesignDocsQueriesOptionsModel = new PostDesignDocsQueriesOptions.Builder()
       .db("testString")
-      .accept("application/json")
       .queries(new java.util.ArrayList<AllDocsQuery>(java.util.Arrays.asList(allDocsQueryModel)))
+      .accept("application/json")
       .build();
     assertEquals(postDesignDocsQueriesOptionsModel.db(), "testString");
-    assertEquals(postDesignDocsQueriesOptionsModel.accept(), "application/json");
     assertEquals(postDesignDocsQueriesOptionsModel.queries(), new java.util.ArrayList<AllDocsQuery>(java.util.Arrays.asList(allDocsQueryModel)));
+    assertEquals(postDesignDocsQueriesOptionsModel.accept(), "application/json");
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)
